@@ -3,6 +3,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
+const authRoutes = require("./routes/authRoutes");
+
+
 dotenv.config(); 
 connectDB();
 
@@ -13,6 +16,12 @@ app.get("/",(req,res)=>{
     res.send("backend working");
 })
 
+
+app.use('/api/auth',authRoutes);
+app.use('/api/products',require('./routes/productRoutes'))
+app.use('/api/orders',require('./routes/orderRoutes'))
+app.use('/api/payment',require('./routes/paymentRoutes'))
+app.use('/api/analytics',require('./routes/analyticsRoutes'))
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,()=>{
