@@ -8,7 +8,7 @@ const generateToken = (id) => {
 };
 
 async function registerUser(req, res) {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -24,7 +24,12 @@ async function registerUser(req, res) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = await User.create({ name, email, password: hashedPassword });
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
 
     if (user) {
       const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
@@ -35,7 +40,7 @@ async function registerUser(req, res) {
         Your OTP for email verification is: ${otp}`;
 
       await sendMail(user.email, subject, msg);
-      
+
       res.status(201).json({
         _id: user._id,
         name: user.name,
@@ -58,7 +63,8 @@ async function loginUser(req, res) {
   try {
     const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
-      res.json({message: "Login successful",
+      res.json({
+        message: "Login successful",
         _id: user._id,
         name: user.name,
         email: user.email,

@@ -2,13 +2,16 @@ const express = require("express");
 const { protected } = require("../middleware/auth.Middleware");
 const { admin } = require("../middleware/admin.Miiddleware");
 
-const {getProducts,getProductByid,createProduct,updateProduct,deleteProduct}  = require('../controllers/productController.js')
+const {getProducts,getProductById,createProduct,updateProduct,deleteProduct}  = require('../controllers/productController.js')
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Specify the destination folder for uploaded files
+
 
 const router = express.Router();
 //not need to write multiple lines get all product 
-router.route('/').get(getProducts).post(protected,admin, createProduct);
+router.route('/').get(getProducts).post(protected,admin,upload.single('img'), createProduct);
 //specific product
-router.route('/:id').get(getProductByid).put(protected,admin,updateProduct).delete(protected,admin,deleteProduct)
+router.route('/:id').get(getProductById).put(protected,admin,upload.single('img'), updateProduct).delete(protected,admin,deleteProduct)
 
 
 /*
