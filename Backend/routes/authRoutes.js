@@ -9,4 +9,6 @@ router.post("/login", loginUser);
 router.get("/user", protected, admin, getUser);
 //middleware- protected, admin
 
+
+
 module.exports = router;
