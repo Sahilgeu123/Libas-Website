@@ -1,0 +1,15 @@
+$kind: environment
+name: ShopEase Local
+variables:
+  - key: baseUrl
+    value: 'http://localhost:3000'
+    enabled: true
+  - key: authToken
+    value: ''
+    enabled: true
+  - key: productId
+    value: ''
+    enabled: true
+  - key: orderId
+    value: ''
+    enabled: true

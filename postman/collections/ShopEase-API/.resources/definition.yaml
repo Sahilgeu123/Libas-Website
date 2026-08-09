@@ -1,0 +1,11 @@
+$kind: collection
+name: ShopEase API
+variables:
+  - key: baseUrl
+    value: 'http://localhost:3000'
+  - key: authToken
+    value: ''
+  - key: productId
+    value: ''
+  - key: orderId
+    value: ''

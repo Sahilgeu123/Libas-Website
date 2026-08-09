@@ -1,0 +1,27 @@
+$kind: http-request
+method: PUT
+url: '{{baseUrl}}/api/products/{{productId}}'
+order: 4000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{authToken}}'
+body:
+  type: formdata
+  content:
+    - key: name
+      type: text
+      value: 'Updated Product Name'
+    - key: description
+      type: text
+      value: 'Updated description here'
+    - key: price
+      type: text
+      value: '149.99'
+    - key: category
+      type: text
+      value: 'Electronics'
+    - key: img
+      type: text
+      value: 'updated_image_placeholder.jpg'

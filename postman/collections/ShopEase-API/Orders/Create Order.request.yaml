@@ -1,0 +1,28 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/api/orders'
+order: 1000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{authToken}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "items": [
+        { "productId": "{{productId}}", "quantity": 1, "price": 100 }
+      ],
+      "totalAmount": 100,
+      "address": {
+        "street": "123 Main St",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "zip": "400001"
+      },
+      "paymentMethod": "razorpay"
+    }

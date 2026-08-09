@@ -1,0 +1,30 @@
+$kind: http-request
+method: POST
+url: '{{baseUrl}}/api/products'
+order: 3000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{authToken}}'
+body:
+  type: formdata
+  content:
+    - key: name
+      type: text
+      value: 'Sample Product'
+    - key: description
+      type: text
+      value: 'Product description here'
+    - key: price
+      type: text
+      value: '99.99'
+    - key: category
+      type: text
+      value: 'Electronics'
+    - key: stock
+      type: text
+      value: '100'
+    - key: img
+      type: text
+      value: 'image_placeholder.jpg'
