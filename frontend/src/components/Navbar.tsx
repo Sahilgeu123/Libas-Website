@@ -5,7 +5,6 @@ import { useLayoutEffect } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 
-
 const Navbar = () => {
   useLayoutEffect(() => {
     const animateNav = gsap.to(".navbar", {
@@ -23,7 +22,7 @@ const Navbar = () => {
 
   }, []);
   return (
-    <nav className="bg-black text-white shadow-lg navbar 
+    <nav className="bg-black text-white shadow-lg navbar z-100
      w-screen transition-all duration-300">
       <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-10">
         <a href="/" className="flex items-center gap-3" aria-label="ShopEase home">
@@ -41,7 +40,7 @@ const Navbar = () => {
         tracking-wider
         sm:flex hover:text-yellow-200">
           <a href="/" className="transition hover:text-white">Home</a>
-          <a href="/products" className="transition hover:text-white">Products</a>
+          <a href="/products" className="transition hover:text-white">Profile</a>
           <a href="/about" className="transition hover:text-white">About</a>
         </div>
 
