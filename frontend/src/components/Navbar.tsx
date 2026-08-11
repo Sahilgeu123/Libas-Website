@@ -1,11 +1,26 @@
 import "../../src/styles/navbar.css";
 import gsap from "gsap";
+import { useSelector } from "react-redux";
+import { useContext } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLayoutEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from "../context/AuthContext";
+import { type RootState } from "../redux/store";
 gsap.registerPlugin(ScrollTrigger);
 
 
 const Navbar = () => {
+  
+  const { user, logout } = useContext(AuthContext);
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  }
+  
   useLayoutEffect(() => {
     const animateNav = gsap.to(".navbar", {
       width: "92%",
@@ -40,16 +55,28 @@ const Navbar = () => {
         tracking-wider
         sm:flex hover:text-yellow-200">
           <a href="/" className="transition hover:text-white">Home</a>
-          <a href="/products" className="transition hover:text-white">Profile</a>
           <a href="/about" className="transition hover:text-white">About</a>
         </div>
 
+        {
+          user ? (
+            <>
+              <li><Link to="/profile">Profile</Link></li>
+              {user.role === "admin" && <li><Link to="/admin">Admin</Link></li>}
+              <li><button onClick={handleLogout} className="text-sm font-semibold leading-6 text-white hover:text-gray-300">
+                Logout
+              </button></li>
+            </>
+          ) : (
+            <li><Link to="/login">Login</Link></li>
+          )
+        }
         <a
           href="/cart"
           className="rounded-3xl  bg-white px-7 py-2 text-sm 
           tracking-wider font-semibold text-black transition hover:bg-zinc-300"
         >
-          Cart
+          Cart({cartItems.length})
         </a>
       </div>
     </nav>

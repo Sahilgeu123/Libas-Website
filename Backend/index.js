@@ -9,7 +9,18 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+// Configure CORS to allow requests from the frontend and support credentials
+const corsOptions = {
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+// Express 5 requires named wildcard parameters. This covers every preflight URL,
+// including the root path.
+app.options("/{*path}", cors(corsOptions));
 
 // Body parser middleware
 app.use(express.json());
