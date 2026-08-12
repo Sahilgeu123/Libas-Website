@@ -13,13 +13,13 @@ const Footer = () => {
             <h2 className="text-xs font-bold tracking-[.16em]  uppercase">Explore</h2>
             <nav className="mt-4 grid gap-3">
               <Link to="/products" className="w-fit transition-colors ">Shop all products</Link>
-              <Link to="/about" className="w-fit transition-colors ">About ShopEase</Link>
+              <Link to="/about" className="w-fit transition-colors ">About Libas</Link>
             </nav>
           </div>
           <div>
             <h2 className="text-xs font-bold tracking-[.16em]  uppercase">Customer care</h2>
             <nav className="mt-4 grid gap-3">
-              <Link to="/return-policy" className="w-fit transition-colors ">Returns & refunds</Link>
+              <Link to="/return" className="w-fit transition-colors ">Returns & refunds</Link>
               <Link to="/disclaimer" className="w-fit transition-colors ">Disclaimer</Link>
             </nav>
           </div>

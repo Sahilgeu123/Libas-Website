@@ -56,7 +56,7 @@ const Navbar = () => {
         sm:flex hover:text-[#efefd5] -ml-22">
           <a href="/" className="transition hover:text-white">Home</a>
           <a href="/about" className="transition hover:text-white">About</a>
-          <a href=""  className="transition hover:text-white">Collection</a>
+          <a href="/project"  className="transition hover:text-white">Collection</a>
         </div>
 
         {

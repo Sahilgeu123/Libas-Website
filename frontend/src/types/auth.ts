@@ -17,3 +17,22 @@ export type AuthContextType = {
 export type AuthProviderProps = {
   children: ReactNode
 }
+
+
+
+export type RegistrationResponse = {
+  _id: string
+  name: string
+  email: string
+  role: string
+  message?: string
+}
+
+
+export type LoginResponse = {
+  _id: string
+  name: string
+  email: string
+  role: string
+  message?: string
+}
