@@ -1,2 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Adamina&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cinzel+Decorative:wght@400;700;900&family=Frank+Ruhl+Libre:wght@300..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Playball&display=swap');
 @import "tailwindcss";
 @import "./styles/navbar.css";
+
+/*
+<p className="font-['Adamina']">Adamina text</p>
+<p className="font-['Cinzel_Decorative']">Cinzel Decorative text</p>
+<p className="font-['Frank_Ruhl_Libre']">Frank Ruhl Libre text</p>
+<p className="font-['Nunito_Sans']">Nunito Sans text</p>
+<p className="font-['Playball']">Playball text</p>
+*/

@@ -23,12 +23,12 @@ const ProductCart = ({ product }: { product: Product }) => {
                     <span>{rating ? rating.toFixed(1) : "New"}</span>
                     {product.numReviews > 0 && <span className="rating-reviews">({product.numReviews} {reviewLabel})</span>}
                 </div>
-                <h3 className="product-name">
+                <h3 className="product-name ">
                     <Link to={`/products/${product._id}`}>{product.name}</Link>
                 </h3>
                 <div className="product-card-footer">
                     <p className="product-price">${product.price.toFixed(2)}</p>
-                    <Link to={`/products/${product._id}`} className="view-details-button">Explore <span aria-hidden="true">→</span></Link>
+                    <Link to={`/products/${product._id}`} className="view-details-button tracking-wider">Explore <span aria-hidden="true">→</span></Link>
                 </div>
             </div>
         </article>
