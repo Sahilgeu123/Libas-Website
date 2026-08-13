@@ -18,11 +18,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "install": "npm --prefix Backend install && npm --prefix frontend install",
+    "install-all": "npm --prefix Backend install && npm --prefix frontend install",
     "dev:server": "npm --prefix Backend run dev",
     "dev:client": "npm --prefix frontend run dev",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "build": "npm --prefix frontend run build"
+    "build": "npm --prefix frontend run build",
+    "seed":"npm --prefix backend run seed"
   },
   "dependencies": {
     "concurrently": "^10.0.4",

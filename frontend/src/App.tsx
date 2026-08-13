@@ -7,8 +7,11 @@ import ReturnPolicy from "./pages/ReturnPolicy";
 import Disclaimer from "./pages/Disclaimer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Product from "./pages/Product";
+import Product from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
+import Profile from "./pages/Profile/Profile";
+import Cart from "./pages/Cart";
+import Cheackout from "./pages/Cheackout";
 
 
 function App() {
@@ -27,7 +30,9 @@ function App() {
             <Route path="/register" element={<Register/>}/>
             <Route path="/products" element={<Product/>}/>
             <Route path="/products/:id" element={<ProductDetail/>}/>
-
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/cart" element={<Cart/>}/>
+            <Route path="/checkout" element={<Cheackout/>}/>
           </Routes>
         </main>
         <Footer />

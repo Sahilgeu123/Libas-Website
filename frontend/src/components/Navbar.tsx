@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useContext } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLayoutEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AuthContext } from "../context/AuthContext";
 import { type RootState } from "../redux/store";
 gsap.registerPlugin(ScrollTrigger);
@@ -12,19 +12,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
 
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  }
 
   useLayoutEffect(() => {
     const animateNav = gsap.to(".navbar", {
       width: "92%",
-      top: "12px",
+        top: "12px",
       borderRadius: "56px",
       scrollTrigger: {
         start: "top top",
@@ -50,32 +44,26 @@ const Navbar = () => {
 
         </a>
 
-        <div className="hidden items-center gap-15 
+        <div className={`hidden items-center gap-15 ${user ? "-mr-12" : "mr-17"}
         text-sm font-medium text-[#efefd5]
         tracking-widest 
-        sm:flex hover:text-[#efefd5] -ml-22">
+        sm:flex hover:text-[#efefd5] `}>
           <a href="/" className="transition hover:text-white">Home</a>
           <a href="/about" className="transition hover:text-white">About</a>
-          <a href="/project"  className="transition hover:text-white">Collection</a>
+          <a href="/products" className="transition hover:text-white">Collection</a>
         </div>
 
         {
           user ? (
-            <>
-              <li><Link to="/profile">Profile</Link></li>
-
+            <div className="flex items-center gap-10">
+              <Link to="/profile" className="text-sm font-medium text-[#efefd5] transition hover:text-white">Profile</Link>
               <a
                 href="/cart"
-                className="rounded-3xl  bg-white px-7 py-2 text-sm 
-          tracking-wider font-semibold text-black transition hover:bg-zinc-300"
+                className="rounded-3xl bg-white px-5 py-2 text-sm tracking-wider font-semibold text-black transition hover:bg-zinc-300"
               >
                 Cart({cartItems.length})
               </a>
-              {user.role === "admin" && <li><Link to="/admin">Admin</Link></li>}
-              <li><button onClick={handleLogout} className="text-sm font-semibold leading-6 text-white hover:text-gray-300">
-                Logout
-              </button></li>
-            </>
+            </div>
           ) : (
             <li><Link to="/login">Login</Link></li>
           )

@@ -12,10 +12,9 @@ const Home = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch('/api/products');
         const data: Product[] = await response.json();
         setProducts(data.slice(0, 4));
-        console.log(products);
       }
       catch (error) {
         console.error('Error fetching products:', error);
@@ -25,7 +24,7 @@ const Home = () => {
       }
     }
     fetchProducts();
-  });
+  }, []);
 
 
   return (
