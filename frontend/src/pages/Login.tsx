@@ -17,7 +17,7 @@ const Login = () => {
     setIsSubmitting(true)
 
     try {
-      const response = await fetch("api/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -46,7 +46,7 @@ const Login = () => {
   }
 
   return (
-    <div className="mx-auto mt-[30px] flex min-h-[70vh] w-full max-w-md items-center px-6 py-12">
+    <div className="mx-auto mt-7.5 flex min-h-[70vh] w-full max-w-md items-center px-6 py-12">
       <section className="w-full rounded-2xl border border-stone-200 bg-white p-7 shadow-sm">
         <p className="font-['Cinzel_Decorative'] text-xl font-bold tracking-wide text-amber-800">Libas</p>
         <h1 className="mt-4 font-['Frank_Ruhl_Libre'] text-3xl font-semibold text-stone-900">Welcome back</h1>

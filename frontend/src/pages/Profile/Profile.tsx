@@ -1,4 +1,20 @@
 /*
+Profile-ADMIN
+admin-analysis-role
+logout
+orders
+Need help
+Notifications
+Switch acc
+wishlist
+
+Profile-USER
+Logout
+Switch acc
+orders
+Need help
+Notifications
+wishlist
 
 import { useNavigate } from 'react-router-dom'
 
