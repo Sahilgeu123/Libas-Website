@@ -23,10 +23,11 @@
     "dev:client": "npm --prefix frontend run dev",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build": "npm --prefix frontend run build",
-    "seed":"npm --prefix backend run seed"
+    "seed": "npm --prefix backend run seed"
   },
   "dependencies": {
     "concurrently": "^10.0.4",
-    "cors": "^2.8.6"
+    "cors": "^2.8.6",
+    "razorpay": "^2.9.8"
   }
 }

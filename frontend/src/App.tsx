@@ -11,8 +11,8 @@ import Product from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile/Profile";
 import Cart from "./pages/Cart";
-import Cheackout from "./pages/Cheackout";
-
+import Checkout from "./pages/Checkout";
+import OrderSucess from "./pages/OrderSucess";
 
 function App() {
 
@@ -23,16 +23,17 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About/>}/>
-            <Route path="/return" element={<ReturnPolicy/>}/>
-            <Route path="/disclaimer" element={<Disclaimer/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
-            <Route path="/products" element={<Product/>}/>
-            <Route path="/products/:id" element={<ProductDetail/>}/>
-            <Route path="/profile" element={<Profile/>}/>
-            <Route path="/cart" element={<Cart/>}/>
-            <Route path="/checkout" element={<Cheackout/>}/>
+            <Route path="/about" element={<About />} />
+            <Route path="/return" element={<ReturnPolicy />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/products" element={<Product />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/ordersuccess" element={<OrderSucess />} />
           </Routes>
         </main>
         <Footer />

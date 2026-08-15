@@ -36,6 +36,7 @@ const Register = () => {
         name: data.name,
         email: data.email,
         role: data.role,
+        token: data.token ?? '',
       }
       login(user)
       navigate("/")
