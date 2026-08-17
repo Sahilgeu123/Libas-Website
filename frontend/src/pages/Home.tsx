@@ -40,7 +40,7 @@ const Home = () => {
                 <Link to="/products" className="rounded-md bg-[#392907] px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#5c430e] transition-colors duration-300">Shop Now</Link>
                 <Link to="/about" className="text-sm font-semibold leading-6 text-black hover:text-[#5c430e] transition-colors duration-300">Learn more <span aria-hidden="true">→</span></Link>
               </div>
-              <div className="mt-10 pb-20 flex  items-center">
+              <div className="mt-10 pb-20 flex  items-center text-sm md:text-[16px] ">
                 <div className="flex gap-3 items-center border-r-2 border-zinc-500 pr-3 mr-3">
                   <img className='w-10 h-10 rounded-full border' src="/shipping.png" alt="" />
                   <div className="">
