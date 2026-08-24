@@ -18,7 +18,7 @@ const Navbar = () => {
   useLayoutEffect(() => {
     const animateNav = gsap.to(".navbar", {
       width: "92%",
-        top: "12px",
+      top: "12px",
       borderRadius: "56px",
       scrollTrigger: {
         start: "top top",
@@ -31,9 +31,9 @@ const Navbar = () => {
 
   }, []);
   return (
-    <nav className="bg-[#3d2705] text-white shadow-lg navbar z-100
-     w-screen transition-all duration-300">
-      <div className="list-none flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-10">
+    <nav className="bg-[#3d2705] text-white shadow-lg navbar 
+     w-screen transition-all duration-300 z-200">
+      <div className="list-none flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-10 z-100">
         <a href="/" className="flex items-center" aria-label="ShopEase home">
           <img
             src="/logo.png"

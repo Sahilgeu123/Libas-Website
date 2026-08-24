@@ -28,6 +28,7 @@
   "dependencies": {
     "concurrently": "^10.0.4",
     "cors": "^2.8.6",
+    "openai": "^7.5.0",
     "razorpay": "^2.9.8"
   }
 }
