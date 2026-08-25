@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 import type { AiChatProps } from "../types/ai";
+import gsap from "gsap";
+
 
 type ChatMessage = {
     role: "user" | "ai";
@@ -10,6 +12,39 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [loading, setLoading] = useState(false);
+
+    const chatContainerRef = useRef<HTMLDivElement>(null);
+    const backButtonRef = useRef<HTMLButtonElement>(null);
+    const inputContainerRef = useRef<HTMLDivElement>(null);
+    const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+            tl.fromTo(chatContainerRef.current,
+                { x: "100%", opacity: 0 },
+                { x: "0%", opacity: 1, duration: 0.8 }
+            )
+            .from(backButtonRef.current, {
+                opacity: 0,
+                x: 30,
+                duration: 0.5,
+            }, "-=0.4")
+            .from(inputContainerRef.current, {
+                opacity: 0,
+                y: -20,
+                duration: 0.5,
+            }, "-=0.3")
+            .from(messagesContainerRef.current, {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+            }, "-=0.3");
+        });
+        return () => ctx.revert();
+    }, []);
+
 
     const sendMessage = async () => {
         if (!message.trim() || loading) return;
@@ -105,10 +140,11 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
     };
 
     return (
-        <div className="absolute w-full md:w-1/2 bg-white/30 right-0 backdrop-blur-md h-screen md:h-full">
+        <div ref={chatContainerRef} className="absolute z-50 w-full lg:w-185 bg-white/30 right-0 backdrop-blur-md h-screen md:h-3/5 ">
 
             {/* Back Button */}
             <button
+                ref={backButtonRef}
                 className="absolute w-23 h-11 shadow-2xl font-semibold border border-yellow-950 rounded-full mt-20 top-0 right-3 bg-white"
                 onClick={() => setOnChat(false)}
             >
@@ -116,10 +152,10 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
             </button>
 
             {/* Input */}
-            <div className="flex z-50 absolute top-20 left-4">
+            <div ref={inputContainerRef} className="flex z-50 absolute top-20 left-4">
 
                 <input
-                    className="w-90 md:w-150 h-12 shadow-5xl bg-[#fbf8f2] rounded-full border border-yellow-950 text-lg pl-5"
+                    className="w-85 lg:w-150 h-12 shadow-5xl bg-[#fbf8f2] rounded-full border border-yellow-950 text-lg pl-5"
                     type="text"
                     placeholder={
                         loading
@@ -150,7 +186,7 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
             </div>
 
             {/* Chat Messages */}
-            <div className="mt-40 px-5 pb-10 h-[calc(100vh-160px)] overflow-y-auto">
+            <div ref={messagesContainerRef} className="mt-40 px-5 pb-10 h-[calc(100vh-160px)] overflow-y-auto">
 
                 <div className="flex flex-col gap-4">
 
@@ -164,9 +200,9 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
                         >
 
                             <div
-                                className={`max-w-[85%] rounded-xl p-4 text-black font-semibold wrap-break-words whitespace-pre-wrap shadow ${msg.role === "user"
-                                    ? "bg-[#fbf8f2]"
-                                    : "bg-[#fbf8f2]"
+                                className={`max-w-[85%] rounded-b-xl *:  p-4 text-black font-semibold wrap-break-words whitespace-pre-wrap shadow ${msg.role === "user"
+                                    ? "bg-[#f9f8f4] rounded-l-2xl"
+                                    : "bg-[#fbf8f2] rounded-r-2xl"
                                     }`}
                             >
                                 {msg.content}

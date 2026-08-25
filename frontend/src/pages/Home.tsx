@@ -13,6 +13,11 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [onChat, setOnChat] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const heroImages = ['/model.png', '/hero_model_2.jpg', '/hero_model_3.jpg'];
+  const isInitialMount = useRef(true);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -28,6 +33,42 @@ const Home = () => {
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    imageRefs.current.forEach((img, idx) => {
+      if (img) {
+        if (idx === currentImageIndex) {
+          gsap.fromTo(img,
+            { opacity: 0, scale: 1.05, x: 20 },
+            { opacity: 1, scale: 1, x: 0, duration: 1.2, ease: 'power3.out', display: 'block' }
+          );
+        } else {
+          gsap.to(img, {
+            opacity: 0,
+            scale: 0.95,
+            x: -20,
+            duration: 1.2,
+            ease: 'power3.out',
+            onComplete: () => {
+              if (img) img.style.display = 'none';
+            }
+          });
+        }
+      }
+    });
+  }, [currentImageIndex]);
+
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -105,9 +146,9 @@ const Home = () => {
             </button>
           )}
         </div>
-        <div className="mx-auto max-w-7xl py-34 px-6 sm:py-32 lg:px-8">
+        <div className="mx-auto max-w-7xl sm:py- lg:px-8 pt-20">
           <div className="flex flex-col md:flex-row mb-10 h-screen sm:items-start lg:items-stretch -mt-5 lg:mb-50">
-            <div className="leftSide md:mx-5 lg:max-w-1/2 flex flex-col gap-6 pb-10 md:pb-0 border-b-2 tracking-wide">
+            <div className="leftSide md:mx-5 lg:max-w-1/2 flex flex-col gap-6 pb-10 py-10 md:pb-0 border-b-2 tracking-wide">
               <p className="hero-tag text-xl font-bold text-black border-l-3 pl-2 ml-2">
                 NEW <span className="pb-2 border-[#5c430e] border-b-3">COLLECTION</span>
               </p>
@@ -159,15 +200,27 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="hero-image hidden lg:flex border-[#5c430e] border-r-3 pr-2 overflow-hidden">
-              <img className="-mt-11 object-cover" src="/model.png" alt="" />
+            <div className="hero-image hidden lg:flex border-[#5c430e] border-r-3 pr-2  overflow-hidden relative">
+              {/* Anchor image to define the natural container size dynamically without hardcoding width/height */}
+              <img className="object-cover invisible pointer-events-none " src="/model.png" alt="" />
+
+              {heroImages.map((src, index) => (
+                <img
+                  key={src}
+                  ref={(el) => { imageRefs.current[index] = el; }}
+                  className="absolute inset-0 object-cover w-full h-full pr-2"
+                  src={src}
+                  alt={`Fashion Model ${index + 1}`}
+                  style={{ display: index === 0 ? 'block' : 'none', opacity: index === 0 ? 1 : 0 }}
+                />
+              ))}
             </div>
           </div>
 
           {loading ? (
             <p className="mt-6 text-lg leading-8 text-[#392907]">Loading products...</p>
           ) : (
-            <div className="products-grid mg:mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="products-grid mg:mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-10">
               {products.map((product) => (
                 <div key={product._id} className="product-card-wrapper">
                   <ProductCart product={product} />
