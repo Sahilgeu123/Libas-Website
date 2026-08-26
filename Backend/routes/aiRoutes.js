@@ -3,8 +3,8 @@ const router = express.Router();
 
 const { protected } = require("../middleware/auth.Middleware");
 
-const { chatAI } = require("../controllers/ai");
+const { chatAI } = require("../controllers/aiChatController");
 
-router.post("/chat", chatAI);
+router.post("/chat", protected ,chatAI);
 
 module.exports = router;

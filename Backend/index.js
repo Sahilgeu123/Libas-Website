@@ -9,7 +9,9 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
 // Configure CORS to allow requests from the frontend and support credentials
+
 const corsOptions = {
     origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
@@ -36,7 +38,7 @@ app.use('/api/orders', require('./routes/orderRoutes'))
 app.use('/api/payment', require('./routes/paymentRoutes'))
 app.use('/api/analytics', require('./routes/analyticsRoutes'))
 app.use('/api/ai',require('./routes/aiRoutes'))
-
+app.use('/api/wishlist',require('./routes/wishlistRoutes'))
 
 
 const PORT = process.env.PORT || 5000;

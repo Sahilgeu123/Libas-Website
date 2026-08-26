@@ -140,12 +140,12 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
     };
 
     return (
-        <div ref={chatContainerRef} className="absolute z-50 w-full lg:w-185 bg-white/30 right-0 backdrop-blur-md h-screen md:h-3/5 ">
+        <div ref={chatContainerRef} className="fixed mt-2 md:mt-0`` md:absolute z-50 w-full lg:w-185 bg-white/30 right-0 backdrop-blur-md h-screen md:h-4/6 ">
 
             {/* Back Button */}
             <button
                 ref={backButtonRef}
-                className="absolute w-23 h-11 shadow-2xl font-semibold border border-yellow-950 rounded-full mt-20 top-0 right-3 bg-white"
+                className="absolute w-23 h-11 shadow-2xl font-semibold border border-yellow-950 rounded-full mt-20 top-0 right-3 bg-[#fbf8f2]"
                 onClick={() => setOnChat(false)}
             >
                 back
@@ -155,7 +155,7 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
             <div ref={inputContainerRef} className="flex z-50 absolute top-20 left-4">
 
                 <input
-                    className="w-85 lg:w-150 h-12 shadow-5xl bg-[#fbf8f2] rounded-full border border-yellow-950 text-lg pl-5"
+                    className="w-85 lg:w-150 h-11 shadow-5xl bg-[#fbf8f2] rounded-full border border-yellow-950 text-lg pl-5"
                     type="text"
                     placeholder={
                         loading
@@ -175,7 +175,7 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
 
                 <img
                     onClick={sendMessage}
-                    className={`w-9 right-4 mt-2.5 rotate-270 absolute ${loading
+                    className={`w-9 right-4 mt-2 rotate-270 absolute ${loading
                         ? "opacity-50 cursor-not-allowed"
                         : "cursor-pointer"
                         }`}

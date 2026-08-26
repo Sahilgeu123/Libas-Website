@@ -96,11 +96,11 @@ const About = () => {
             PROJECT <span className="pb-2 border-[#5c430e] border-b-3">OVERVIEW</span>
           </p>
           <h1 className="about-title text-4xl lg:text-7xl font-bold tracking-tight text-black sm:text-6xl mt-6">
-            Meet ShopEase:<br />
+            Meet Libas:<br />
             <span className="inline-block mt-2 text-[#5c430e]">AI-Powered Commerce</span>
           </h1>
           <p className="about-desc mt-8 text-2xl leading-9 text-[#392907] font-semibold font-['Frank_Ruhl_Libre']">
-            ShopEase is a next-generation, premium e-commerce platform that brings together luxurious minimal design
+            Libas is a next-generation, premium e-commerce platform that brings together luxurious minimal design
             and cutting-edge software engineering. Integrating an{' '}
             <span className="text-[#9a8559]">AI chat assistant driven by Gemini</span>, users experience fluid, context-aware shopping guidance and streamlined checkout.
           </p>
@@ -229,7 +229,7 @@ const About = () => {
 
           <div className="folder-tree bg-[#241a0d] text-emerald-400 p-6 rounded-2xl font-mono text-sm shadow-xl overflow-x-auto border-2 border-[#392907] max-h-[500px]">
             <pre className="leading-relaxed">
-{`ShopEase/
+              {`Libas/
 ├── Backend/                    # Express REST API Server
 │   ├── config/                 # DB config (connectDB.js)
 │   ├── controllers/            # Logic (auth, orders, products)
@@ -268,7 +268,7 @@ const About = () => {
             <p className="text-[#9a8559] uppercase tracking-widest font-bold text-sm">DEVELOPER PROFILE</p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white font-serif">Sahil Alam</h2>
             <p className="text-[#efefd5] text-lg font-medium leading-relaxed font-sans">
-              Hi! I am the creator and lead engineer of ShopEase. I specialize in designing and engineering premium, highly-interactive, responsive full-stack applications. Leveraging modern UI libraries like GSAP, styled with Tailwind CSS, and powered by secure Node/Express backends, I bring design layouts to life.
+              Hi! I am the creator and lead engineer of Libas. I specialize in designing and engineering premium, highly-interactive, responsive full-stack applications. Leveraging modern UI libraries like GSAP, styled with Tailwind CSS, and powered by secure Node/Express backends, I bring design layouts to life.
             </p>
 
             <div className="pt-4 flex flex-wrap gap-4 text-sm font-semibold">

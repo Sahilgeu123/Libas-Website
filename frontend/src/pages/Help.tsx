@@ -1,6 +1,6 @@
 const Help = () => {
     return (
-        <div className="min-h-screen bg-[#fdf9f0] px-4 py-10 text-[#2b1d0f]">
+        <div className="min-h-screen bg-[#fdf9f0] px-4 pt-25 py-10 text-[#2b1d0f] ">
             <div className="mx-auto max-w-5xl rounded-[30px] border border-[#ecdcb3] bg-[#fffdf8] p-6 shadow-[0_20px_60px_rgba(43,29,15,0.08)] md:p-8">
                 <div className="mb-8">
                     <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#7c5a32]">Support</p>
@@ -8,26 +8,26 @@ const Help = () => {
                 </div>
 
                 <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-                    <form className="space-y-5 rounded-[24px] border border-[#ecdcb3] bg-[#fdfaf3] p-5 md:p-6">
+                    <form className="space-y-5 rounded-3xl border border-[#ecdcb3] bg-[#fdfaf3] p-5 md:p-6 shadow">
                         <div>
-                            <label className="mb-2 block text-sm font-semibold uppercase tracking-[0.15em] text-[#5c432a]">
+                            <label className="mb-2 block text-sm font-semibold uppercase tracking-[0.15em] text-[#5c432a] ">
                                 Full Name
                             </label>
                             <input
                                 type="text"
                                 placeholder="Enter your name"
-                                className="w-full rounded-xl border border-[#e8d7b1] bg-white px-4 py-3 outline-none transition focus:border-[#2b1d0f]"
+                                className="w-full shadow rounded-xl border border-[#e8d7b1] bg-white px-4 py-3 outline-none transition focus:border-[#2b1d0f]"
                             />
                         </div>
 
                         <div>
-                            <label className="mb-2 block text-sm font-semibold uppercase tracking-[0.15em] text-[#5c432a]">
+                            <label className="mb-2 block  text-sm font-semibold uppercase tracking-[0.15em] text-[#5c432a]">
                                 Email Address
                             </label>
                             <input
                                 type="email"
                                 placeholder="you@example.com"
-                                className="w-full rounded-xl border border-[#e8d7b1] bg-white px-4 py-3 outline-none transition focus:border-[#2b1d0f]"
+                                className="w-full shadow rounded-xl border border-[#e8d7b1] bg-white px-4 py-3 outline-none transition focus:border-[#2b1d0f]"
                             />
                         </div>
 
@@ -38,7 +38,7 @@ const Help = () => {
                             <input
                                 type="tel"
                                 placeholder="+91 98765 43210"
-                                className="w-full rounded-xl border border-[#e8d7b1] bg-white px-4 py-3 outline-none transition focus:border-[#2b1d0f]"
+                                className="w-full shadow rounded-xl border border-[#e8d7b1] bg-white px-4 py-3 outline-none transition focus:border-[#2b1d0f]"
                             />
                         </div>
 

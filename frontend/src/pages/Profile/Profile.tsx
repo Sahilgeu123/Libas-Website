@@ -7,15 +7,24 @@ const Profile = () => {
   const { logout, user } = useContext(AuthContext);
   const isAdmin = user?.role === 'admin';
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showWishlist, setShowWishlist] = useState(false);
+
 
   const menuItems = [
-    { label: 'Orders', value: '0' },
-    { label: 'Wishlist', value: '0' },
+    {
+      label: 'Orders', value: '0',
+      onClick: ()=> navigate('orders')
+    },
+    {
+      label: 'Wishlist',
+      value: '0',
+      onClick: () => setShowWishlist(true)
+    },
     {
       label: 'Notifications',
       value: '0',
       onClick: () => setShowNotifications(true),
-    },
+    }
   ];
 
   const handleLogout = () => {
@@ -24,10 +33,10 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfdf4] text-[#392907] pt-24 pb-16 font-sans">
+    <div className="min-h-screen bg-[#fdfdf4] text-[#392907] pt-20 pb-16 font-sans">
       <div className="mx-auto max-w-6xl px-6 py-6 md:px-8">
         {/* Header Area */}
-        <header className="mb-10 rounded-2xl border border-[#5c430e]/15 bg-[#fffdf8] p-6 shadow-sm md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <header className="mb-10 rounded-2xl border border-[#5c430e]/15 bg-[#f8f2e1] p-6 shadow-sm md:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#9a8559] bg-[#5c430e]/10 px-3 py-1 rounded-full">
               {isAdmin ? 'Administrator' : 'Customer Account'}
@@ -39,7 +48,7 @@ const Profile = () => {
           <button
             type="button"
             onClick={handleLogout}
-            className="rounded-full border border-[#392907] bg-transparent text-[#392907] px-6 py-2.5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#392907] hover:text-[#fdfdf4] transition-all duration-300 shadow-sm hover:shadow cursor-pointer"
+            className="rounded-full border border-[#392907] bg-[#faf5eb] text-[#392907] px-6 py-2.5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#392907] hover:text-[#fdfdf4] transition-all duration-300 shadow-sm hover:shadow cursor-pointer"
           >
             Log Out
           </button>
@@ -48,10 +57,10 @@ const Profile = () => {
         {/* Main Columns */}
         <main className="grid gap-8 lg:grid-cols-[1.2fr_1.8fr]">
           {/* Left Column: Profile Card & Support */}
-          <section className="rounded-2xl border border-[#5c430e]/15 bg-[#fffdf8] p-6 text-[#392907] shadow-sm flex flex-col justify-between gap-8">
+          <section className="rounded-2xl border border-[#5c430e]/15 bg-[#f8f2e1] p-6 text-[#392907] shadow-sm flex flex-col justify-between gap-8">
             <div>
               {/* User Avatar & Name */}
-              <div className="flex items-center gap-5 pb-6 border-b border-[#5c430e]/10">
+              <div className="flex items-center gap-5 pb-6  border-b border-[#5c430e]/10">
                 <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 border-[#9a8559] bg-[#fdfdf4] shadow-inner">
                   <img
                     src="./image.png"
@@ -74,7 +83,7 @@ const Profile = () => {
               </div>
 
               {/* Account details */}
-              <div className="mt-6 rounded-xl bg-[#fdfdf4]/75 border border-[#5c430e]/10 p-5">
+              <div className="mt-6 rounded-xl bg-[#fdfdf4] shadow border border-[#5c430e]/10 p-5">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9a8559]">
                   Email Address
                 </p>
@@ -91,7 +100,7 @@ const Profile = () => {
             </div>
 
             {/* Help / Support area */}
-            <div className="rounded-xl border border-[#5c430e]/10 bg-[#fdfdf4]/40 p-5">
+            <div className="rounded-xl border border-[#5c430e]/10 bg-[#fdfdf4] shadow p-5">
               <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#392907] mb-3">
                 Need Assistance?
               </h4>
@@ -114,7 +123,7 @@ const Profile = () => {
           </section>
 
           {/* Right Column: Account Management Menu */}
-          <section className="rounded-2xl border border-[#5c430e]/15 bg-[#fffdf8] p-6 shadow-sm md:p-8 flex flex-col justify-between">
+          <section className="rounded-2xl border border-[#5c430e]/15 bg-[#f8f2e1] p-6 shadow-sm md:p-8 flex flex-col justify-between">
             <div>
               <div className="mb-6 flex items-center justify-between">
                 <h3 className="text-xs font-bold uppercase tracking-[0.25em] text-[#342505] font-['Frank_Ruhl_Libre']">
@@ -129,7 +138,7 @@ const Profile = () => {
                 {/* Switch Account button */}
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between rounded-xl border border-[#5c430e]/10 bg-[#fdfdf4]/40 px-5 py-4 text-left hover:bg-[#fdfdf4] hover:border-[#5c430e]/30 transition-all duration-300 cursor-pointer group"
+                  className="flex w-full items-center justify-between rounded-xl shadow border border-[#5c430e]/10 bg-[#fdfdf4]/40 px-5 py-4 text-left hover:bg-[#fdfdf4] hover:border-[#5c430e]/30 transition-all duration-300 cursor-pointer group"
                 >
                   <span className="text-sm font-semibold text-[#392907] group-hover:translate-x-1 transition-transform duration-300">
                     Switch Account
@@ -145,7 +154,7 @@ const Profile = () => {
                     key={item.label}
                     type="button"
                     onClick={item.onClick}
-                    className="flex w-full items-center justify-between rounded-xl border border-[#5c430e]/10 bg-[#fdfdf4]/40 px-5 py-4 text-left hover:bg-[#fdfdf4] hover:border-[#5c430e]/30 transition-all duration-300 cursor-pointer group"
+                    className="flex w-full items-center justify-between shadow rounded-xl border border-[#5c430e]/10 bg-[#fdfdf4]/40 px-5 py-4 text-left hover:bg-[#fdfdf4] hover:border-[#5c430e]/30 transition-all duration-300 cursor-pointer group"
                   >
                     <span className="text-sm font-semibold text-[#392907] group-hover:translate-x-1 transition-transform duration-300">
                       {item.label}
@@ -175,6 +184,7 @@ const Profile = () => {
             </div>
 
             {/* Notifications Modal */}
+
             {showNotifications && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                 <div className="relative w-[90%] max-w-md rounded-2xl border border-[#5c430e]/20 bg-[#fffdf8] p-6 shadow-2xl">
@@ -205,6 +215,41 @@ const Profile = () => {
                     <p className="mt-1 text-sm text-[#9a8559]">
                       You are completely up to date!
                     </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Wishlist Modal */}
+
+            {showWishlist && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                <div className="relative w-[90%] max-w-md rounded-2xl border border-[#5c430e]/20 bg-[#fffdf8] p-6 shadow-2xl">
+                  {/* Close button */}
+                  <button
+                    type="button"
+                    onClick={() => setShowWishlist(false)}
+                    className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-[#392907]/10 bg-[#fdfdf4] text-[#392907] hover:bg-[#392907] hover:text-[#fdfdf4] transition-all duration-300 cursor-pointer"
+                  >
+                    ✕
+                  </button>
+
+                  {/* Header */}
+                  <div className="pr-10">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#9a8559]">
+                      Account Updates
+                    </p>
+                    <h2 className="mt-2 text-2xl font-bold text-[#342505] font-['Frank_Ruhl_Libre']">
+                      Wishlist
+                    </h2>
+                  </div>
+
+                  {/* Notification Content */}
+                  <div className="mt-6 rounded-xl bg-[#fdfdf4] border border-[#5c430e]/10 p-5 text-center">
+                    <p className="font-bold text-[#342505]">
+                      No Wishlist
+                    </p>
+                  
                   </div>
                 </div>
               </div>

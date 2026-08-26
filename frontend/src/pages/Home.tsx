@@ -146,9 +146,9 @@ const Home = () => {
             </button>
           )}
         </div>
-        <div className="mx-auto max-w-7xl sm:py- lg:px-8 pt-20">
-          <div className="flex flex-col md:flex-row mb-10 h-screen sm:items-start lg:items-stretch -mt-5 lg:mb-50">
-            <div className="leftSide md:mx-5 lg:max-w-1/2 flex flex-col gap-6 pb-10 py-10 md:pb-0 border-b-2 tracking-wide">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-20">
+          <div className="flex flex-col md:flex-row mb-10 h-screen sm:items-start lg:items-stretch -mt-5 lg:mb-20">
+            <div className="leftSide md:mx-5 lg:max-w-1/2 flex flex-col gap-6  pt-10 md:pb-0 border-b-2 tracking-wide">
               <p className="hero-tag text-xl font-bold text-black border-l-3 pl-2 ml-2">
                 NEW <span className="pb-2 border-[#5c430e] border-b-3">COLLECTION</span>
               </p>
@@ -220,7 +220,7 @@ const Home = () => {
           {loading ? (
             <p className="mt-6 text-lg leading-8 text-[#392907]">Loading products...</p>
           ) : (
-            <div className="products-grid mg:mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mb-10">
+            <div className="products-grid mb-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {products.map((product) => (
                 <div key={product._id} className="product-card-wrapper">
                   <ProductCart product={product} />
