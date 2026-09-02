@@ -116,7 +116,7 @@ const Profile = () => {
                   <span className="font-semibold text-[#392907]">Call Us:</span> +91 98765 43210
                 </p>
                 <p>
-                  <span className="font-semibold text-[#392907]">Email:</span> support@shopese.com
+                  <span className="font-semibold text-[#392907]">Email:</span> support@libas.com
                 </p>
               </div>
             </div>

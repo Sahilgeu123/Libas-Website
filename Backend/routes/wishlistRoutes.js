@@ -10,8 +10,8 @@ const {
 
 const router = express.Router();
 
-router.route("/").get(getAllWishlist).post(addWishlist);
-router.route("/:_id").delete(deleteWishlistById);
-router.delete("/",clearWishlist);
+router.route("/").get(protected, getAllWishlist).post(protected, addWishlist);
+router.delete("/:_id",protected ,deleteWishlistById);
+router.delete("/",protected, clearWishlist);
 
 module.exports = router;
