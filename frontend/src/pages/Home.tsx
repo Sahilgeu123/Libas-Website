@@ -5,6 +5,7 @@ import { type Product } from '../types/product';
 import AiChat from '../components/AiChat';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+const API_URL = import.meta.env.VITE_API_URL;
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,8 +23,9 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products');
+        const response = await fetch(`${API_URL}/api/products`);
         const data: Product[] = await response.json();
+        console.log('Fetched products:', data);
         setProducts(data.slice(0, 4));
       } catch (error) {
         console.error('Error fetching products:', error);
