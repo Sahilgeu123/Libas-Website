@@ -20,8 +20,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// Express 5 requires named wildcard parameters. This covers every preflight URL,
-// including the root path.
+
 app.options("/{*path}", cors(corsOptions));
 
 // Body parser middleware
