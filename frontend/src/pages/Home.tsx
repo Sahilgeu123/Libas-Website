@@ -20,12 +20,13 @@ const Home = () => {
   const isInitialMount = useRef(true);
 
 
+  console.log(API_URL);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${API_URL}/api/products`);
         const data: Product[] = await response.json();
-        console.log('Fetched products:', data);
+        console.log('Fetched products:', data, API_URL);
         setProducts(data.slice(0, 4));
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -111,7 +112,6 @@ const Home = () => {
           ease: 'power3.out',
         }, '-=1.2');
 
-      // ScrollTrigger for products stagger entrance
       if (!loading && products.length > 0) {
         gsap.from('.product-card-wrapper', {
           scrollTrigger: {
