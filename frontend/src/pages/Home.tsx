@@ -24,8 +24,10 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${API_URL}/api/products`);
+        const res = await fetch('/api/products');
         const data: Product[] = await response.json();
-        console.log(API_URL);
+        
+        console.log('Fetched products:', res);
         setProducts(data.slice(0, 4));
       } catch (error) {
         console.error('Error fetching products:', error);
