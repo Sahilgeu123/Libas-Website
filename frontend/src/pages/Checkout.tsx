@@ -8,7 +8,9 @@ import { clearCart } from "../redux/cartSlice";
 import type { RootState } from "../redux/store";
 import type { CartItem } from "../types/cart";
 
-const Cheackout = () => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+const Checkout = () => {
   const { user } = useContext(AuthContext);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems) as CartItem[];
   const dispatch = useDispatch();
@@ -64,7 +66,7 @@ const Cheackout = () => {
 
     setLoading(true);
     try {
-      const orderRes = await fetch("/api/payment/order", {
+      const orderRes = await fetch(`${API_URL}/api/payment/order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: total }),
@@ -94,14 +96,14 @@ const Cheackout = () => {
         handler: async function (response: any) {
           setLoading(true);
           try {
-            const verifyRes = await fetch("/api/payment/verify", {
+            const verifyRes = await fetch(`${API_URL}/api/payment/verify`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(response),
             });
             const verifyData = await verifyRes.json();
             if (verifyRes.ok && verifyData.success) {
-              const saveOrderRes = await fetch("/api/orders", {
+              const saveOrderRes = await fetch(`${API_URL}/api/orders`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -163,7 +165,7 @@ const Cheackout = () => {
     }
     setLoading(true);
     try {
-      const saveOrderRes = await fetch("/api/orders", {
+      const saveOrderRes = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -372,4 +374,4 @@ const Cheackout = () => {
   );
 };
 
-export default Cheackout;
+export default Checkout;

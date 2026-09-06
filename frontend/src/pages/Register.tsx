@@ -2,7 +2,7 @@ import { type FormEvent, useContext, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 import type { UserData, RegistrationResponse } from "../types/auth"
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Register = () => {
   const [name, setName] = useState("")
@@ -19,7 +19,7 @@ const Register = () => {
     setIsSubmitting(true)
 
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, role: "user" }),
