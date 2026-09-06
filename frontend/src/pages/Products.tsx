@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import ProductCart from "../components/ProductCart";
 import type { Product } from "../types/product";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const Products = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const response = await fetch("/api/products");
+        const response = await fetch(`${API_URL}/api/products`);
         if (!response.ok) throw new Error("Unable to load products");
         setProducts(await response.json());
       } catch (err) {
@@ -38,7 +40,7 @@ const Products = () => {
   return (
     <main className="min-h-screen bg-[#fdfdf4] px-6 py-16 sm:px-10 lg:px-16 mt-10">
       <div className="mx-auto max-w-7xl">
-        
+
 
         {!loading && !error && categories.length > 2 && (
           <div className="mb-10 flex flex-wrap justify-center gap-2" aria-label="Product categories">
