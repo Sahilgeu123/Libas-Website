@@ -1,11 +1,46 @@
 import { Link } from 'react-router-dom';
 import "../styles/product.css";
 import type { Product } from '../types/product';
+import { useDispatch } from 'react-redux';
+import { addToWishlist } from '../redux/wishlistSlice';
+import { AuthContext } from "../context/AuthContext"
+import { useContext } from "react";
 
 const ProductCart = ({ product }: { product: Product }) => {
     const rating = Math.min(5, Math.max(0, product.rating || 0));
     const reviewLabel = product.numReviews === 1 ? "review" : "reviews";
+    const dispatch = useDispatch();
+    const { user } = useContext(AuthContext)
+    const handleWishlistClick = async () => {
+        try {
+            if (!user?.token) {
+                console.log("Please login first");
+                return;
+            }
 
+            const res = await fetch("/api/wishlist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify({
+                    productId: product._id,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message);
+            }
+
+            dispatch(addToWishlist(product));
+
+        } catch (error) {
+            console.error("Wishlist error:", error);
+        }
+    };
     return (
         <article className="product-card">
             <div className="product-image-wrap">
@@ -14,7 +49,7 @@ const ProductCart = ({ product }: { product: Product }) => {
                 </Link>
                 <span className="product-category">{product.category || "New arrival"}</span>
                 <button className="product-wishlist" type="button" aria-label={`Save ${product.name} to wishlist`}>
-                    <span aria-hidden="true">♡</span>
+                    <span aria-hidden="true" onClick={handleWishlistClick}>♡</span>
                 </button>
             </div>
             <div className="product-info">

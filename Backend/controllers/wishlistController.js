@@ -24,6 +24,7 @@ const addWishlist = async (req, res) => {
     });
   }
 };
+
 const getAllWishlist = async (req, res) => {
   try {
     const User = await user.findById(req.user._id).populate("wishlist");
@@ -42,7 +43,7 @@ const deleteWishlistById = async (req, res) => {
   try {
     const { _id } = req.params;
 
-    const user = await User.findByIdAndUpdate(
+    const User = await user.findByIdAndUpdate(
       req.user._id,
       {
         $pull: {
@@ -54,7 +55,7 @@ const deleteWishlistById = async (req, res) => {
 
     res.status(200).json({
       message: "Product removed from wishlist",
-      wishlist: user.wishlist,
+      wishlist: User.wishlist,
     });
   } catch (err) {
     res.status(500).json({
@@ -65,7 +66,7 @@ const deleteWishlistById = async (req, res) => {
 
 const clearWishlist = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
+    const User = await user.findByIdAndUpdate(
       req.user._id,
       {
         $set: {
@@ -77,7 +78,7 @@ const clearWishlist = async (req, res) => {
 
     res.status(200).json({
       message: "Wishlist cleared",
-      wishlist: user.wishlist,
+      wishlist: User.wishlist,
     });
   } catch (err) {
     res.status(500).json({

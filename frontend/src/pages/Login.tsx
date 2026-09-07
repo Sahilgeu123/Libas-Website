@@ -38,6 +38,7 @@ const Login = () => {
         role: data.role,
         token: data.token ?? '',
       }
+
       login(user)
       navigate("/")
     } catch (error) {

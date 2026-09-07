@@ -1,24 +1,27 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-
+import type { Product } from '../../types/product';
 const Profile = () => {
   const navigate = useNavigate();
   const { logout, user } = useContext(AuthContext);
   const isAdmin = user?.role === 'admin';
   const [showNotifications, setShowNotifications] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
-
+  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
 
   const menuItems = [
     {
       label: 'Orders', value: '0',
-      onClick: ()=> navigate('orders')
+      onClick: () => navigate('orders')
     },
     {
       label: 'Wishlist',
       value: '0',
-      onClick: () => setShowWishlist(true)
+      onClick: () => {
+        setShowWishlist(true);
+        getAllWishlistItems();
+      }
     },
     {
       label: 'Notifications',
@@ -30,6 +33,33 @@ const Profile = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const getAllWishlistItems = async () => {
+    try {
+      if (!user?.token) {
+        console.error("You are not logged in");
+        return;
+      }
+
+      const res = await fetch("/api/wishlist", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to fetch wishlist");
+      }
+
+      setWishlistItems(data.wishlist);
+
+    } catch (error) {
+      console.error("Error fetching wishlist items:", error);
+    }
   };
 
   return (
@@ -224,7 +254,7 @@ const Profile = () => {
 
             {showWishlist && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                <div className="relative w-[90%] max-w-md rounded-2xl border border-[#5c430e]/20 bg-[#fffdf8] p-6 shadow-2xl">
+                <div className="relative w-200 max-w-100 sm:max-w-120 md:max-w-150 lg:max-w-200 rounded-2xl border border-[#5c430e]/20 bg-[#fffdf8] p-6 shadow-2xl">
                   {/* Close button */}
                   <button
                     type="button"
@@ -246,10 +276,22 @@ const Profile = () => {
 
                   {/* Notification Content */}
                   <div className="mt-6 rounded-xl bg-[#fdfdf4] border border-[#5c430e]/10 p-5 text-center">
-                    <p className="font-bold text-[#342505]">
-                      No Wishlist
-                    </p>
-                  
+                    {
+                      wishlistItems.length === 0 ? (
+                        <p className="font-bold text-[#342505]">
+                          No items in your wishlist
+                        </p>
+                      ) : (
+                        <ul className="space-y-2">
+                          {wishlistItems.map((item: Product) => (
+                            <li className="text-sm text-[#392907]">
+                              {item.name} - ${item.price.toFixed(2)}
+                            </li>
+                          ))}
+                        </ul>
+                      )
+                    }
+
                   </div>
                 </div>
               </div>

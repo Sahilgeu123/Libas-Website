@@ -30,6 +30,7 @@ const Navbar = () => {
     return () => { animateNav.kill(); };
 
   }, []);
+  
   return (
     <nav className="bg-[#3d2705] text-white shadow-lg navbar 
      w-screen transition-all duration-300 z-200">
