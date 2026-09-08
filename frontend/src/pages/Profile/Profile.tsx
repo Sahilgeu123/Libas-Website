@@ -1,14 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { AuthContext } from '../../context/AuthContext';
+import { addToCart } from '../../redux/cartSlice';
+import { removeFromWishlist } from '../../redux/wishlistSlice';
 import type { Product } from '../../types/product';
 const Profile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { logout, user } = useContext(AuthContext);
   const isAdmin = user?.role === 'admin';
   const [showNotifications, setShowNotifications] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
 
   const menuItems = [
     {
@@ -17,7 +22,7 @@ const Profile = () => {
     },
     {
       label: 'Wishlist',
-      value: '0',
+      value: wishlistItems.length.toString(),
       onClick: () => {
         setShowWishlist(true);
         getAllWishlistItems();
@@ -55,10 +60,46 @@ const Profile = () => {
         throw new Error(data.message || "Failed to fetch wishlist");
       }
 
-      setWishlistItems(data.wishlist);
+      setWishlistItems((data.wishlist || []).filter(Boolean));
 
     } catch (error) {
       console.error("Error fetching wishlist items:", error);
+    }
+  };
+
+  const updateQty = (id: string, delta: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max(1, (prev[id] || 1) + delta),
+    }));
+  };
+
+  const handleBuy = (item: Product) => {
+    const qty = quantities[item._id] || 1;
+    dispatch(
+      addToCart({
+        _id: item._id,
+        title: item.name,
+        price: item.price,
+        image: item.imageUrl,
+        quantity: qty,
+      })
+    );
+    navigate('/cart');
+  };
+
+  const handleRemoveWishlist = async (id: string) => {
+    try {
+      if (user?.token) {
+        await fetch(`/api/wishlist/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${user.token}` },
+        });
+      }
+      setWishlistItems((prev) => prev.filter((item) => item._id !== id));
+      dispatch(removeFromWishlist(id));
+    } catch (error) {
+      console.error("Error removing wishlist item:", error);
     }
   };
 
@@ -253,8 +294,8 @@ const Profile = () => {
             {/* Wishlist Modal */}
 
             {showWishlist && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                <div className="relative w-200 max-w-100 sm:max-w-120 md:max-w-150 lg:max-w-200 rounded-2xl border border-[#5c430e]/20 bg-[#fffdf8] p-6 shadow-2xl">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+                <div className="relative w-full max-w-2xl rounded-2xl border border-[#5c430e]/20 bg-[#fffdf8] p-6 shadow-2xl">
                   {/* Close button */}
                   <button
                     type="button"
@@ -267,31 +308,104 @@ const Profile = () => {
                   {/* Header */}
                   <div className="pr-10">
                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#9a8559]">
-                      Account Updates
+                      Saved Collection
                     </p>
                     <h2 className="mt-2 text-2xl font-bold text-[#342505] font-['Frank_Ruhl_Libre']">
-                      Wishlist
+                      Wishlist {wishlistItems.length > 0 && `(${wishlistItems.length})`}
                     </h2>
                   </div>
 
-                  {/* Notification Content */}
-                  <div className="mt-6 rounded-xl bg-[#fdfdf4] border border-[#5c430e]/10 p-5 text-center">
-                    {
-                      wishlistItems.length === 0 ? (
-                        <p className="font-bold text-[#342505]">
-                          No items in your wishlist
-                        </p>
-                      ) : (
-                        <ul className="space-y-2">
-                          {wishlistItems.map((item: Product) => (
-                            <li className="text-sm text-[#392907]">
-                              {item.name} - ${item.price.toFixed(2)}
-                            </li>
-                          ))}
-                        </ul>
-                      )
-                    }
+                  {/* Wishlist Content */}
+                  <div className="mt-6">
+                    {wishlistItems.length === 0 ? (
+                      <div className="rounded-xl bg-[#fdfdf4] border border-[#5c430e]/10 p-8 text-center">
+                        <p className="font-bold text-[#342505]">No items in your wishlist</p>
+                        <p className="mt-1 text-xs text-[#9a8559]">Explore products and save your favorites here.</p>
+                      </div>
+                    ) : (
+                      <div className="max-h-[60vh] overflow-y-auto space-y-3 pr-1">
+                        {wishlistItems.map((item: Product) => {
+                          const qty = quantities[item._id] || 1;
+                          return (
+                            <div
+                              key={item._id}
+                              className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl border border-[#5c430e]/10 bg-[#fdfdf4] p-4 text-[#392907] transition-all hover:border-[#5c430e]/30"
+                            >
+                              {/* Product Info */}
+                              <div className="flex items-center gap-4 w-full sm:w-auto">
+                                {item.imageUrl && (
+                                  <img
+                                    src={item.imageUrl}
+                                    alt={item.name}
+                                    className="h-16 w-16 rounded-lg object-cover border border-[#5c430e]/10 bg-white shrink-0 cursor-pointer"
+                                    onClick={() => navigate(`/products/${item._id}`)}
+                                  />
+                                )}
+                                <div className="min-w-0 flex-1">
+                                  <h4
+                                    onClick={() => navigate(`/products/${item._id}`)}
+                                    className="font-bold text-sm text-[#342505] truncate cursor-pointer hover:text-[#5c430e] transition-colors"
+                                  >
+                                    {item.name}
+                                  </h4>
+                                  <p className="mt-1 text-sm font-bold text-[#5c430e]">
+                                    ${(item.price * qty).toFixed(2)}
+                                    {qty > 1 && (
+                                      <span className="ml-1.5 text-[11px] font-normal text-[#9a8559]">
+                                        (${item.price.toFixed(2)} each)
+                                      </span>
+                                    )}
+                                  </p>
+                                </div>
+                              </div>
 
+                              {/* Controls */}
+                              <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                                {/* Quantity */}
+                                <div className="flex items-center rounded-lg border border-[#5c430e]/20 bg-[#fffdf8]">
+                                  <button
+                                    type="button"
+                                    onClick={() => updateQty(item._id, -1)}
+                                    className="px-2.5 py-1 text-xs font-bold text-[#392907] hover:bg-[#5c430e]/10 rounded-l-lg transition-colors cursor-pointer"
+                                  >
+                                    −
+                                  </button>
+                                  <span className="min-w-7 text-center text-xs font-semibold text-[#342505]">
+                                    {qty}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => updateQty(item._id, 1)}
+                                    className="px-2.5 py-1 text-xs font-bold text-[#392907] hover:bg-[#5c430e]/10 rounded-r-lg transition-colors cursor-pointer"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+
+                                {/* Buy */}
+                                <button
+                                  type="button"
+                                  onClick={() => handleBuy(item)}
+                                  className="rounded-lg bg-[#392907] px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-[#fdfdf4] hover:bg-[#5c430e] transition-all duration-300 cursor-pointer shadow-sm"
+                                >
+                                  Buy
+                                </button>
+
+                                {/* Delete */}
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveWishlist(item._id)}
+                                  className="flex h-8 w-8 items-center justify-center rounded-full border border-[#5c430e]/10 text-xs text-[#9a8559] hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition-all cursor-pointer"
+                                  title="Remove from wishlist"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

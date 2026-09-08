@@ -137,7 +137,7 @@ const Home = () => {
             <AiChat onChat={onChat} setOnChat={setOnChat} />
           ) : (
             <button
-              className="fixed top-18 md:top-169 right-3 w-20 h-10 border-2 border-[#271010] bg-[#fdfdf4] text-[#392907] font-semibold z-50 rounded-full cursor-pointer hover:bg-[#392907] hover:text-[#fdfdf4] transition-all duration-300"
+              className="fixed top-169 right-3 w-20 h-10 border-2 border-[#271010] bg-[#fdfdf4] text-[#392907] font-semibold z-50 rounded-full cursor-pointer hover:bg-[#392907] hover:text-[#fdfdf4] transition-all duration-300"
               onClick={() => {
                 setOnChat(true);
               }}
@@ -220,7 +220,7 @@ const Home = () => {
           {loading ? (
             <p className="mt-6 text-lg leading-8 text-[#392907]">Loading products...</p>
           ) : (
-            <div className="products-grid mb-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="products-grid pb-20 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {products.map((product) => (
                 <div key={product._id} className="product-card-wrapper">
                   <ProductCart product={product} />
