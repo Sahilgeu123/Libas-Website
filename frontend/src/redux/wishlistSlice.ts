@@ -33,6 +33,10 @@ const wishlistSlice = createSlice({
     clearWishlist: (state) => {
       state.items = [];
     },
+
+    setWishlist: (state, action: PayloadAction<Product[]>) => {
+      state.items = action.payload;
+    },
   },
 });
 
@@ -40,6 +44,7 @@ export const {
   addToWishlist,
   removeFromWishlist,
   clearWishlist,
+  setWishlist,
 } = wishlistSlice.actions;
 
 export const wishlistReducer =  wishlistSlice.reducer;

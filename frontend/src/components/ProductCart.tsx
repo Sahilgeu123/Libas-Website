@@ -13,30 +13,34 @@ const ProductCart = ({ product }: { product: Product }) => {
     const { user } = useContext(AuthContext)
     const handleWishlistClick = async () => {
         try {
-            if (!user?.token) {
-                console.log("Please login first");
+            if (!user?.email) {
+                alert("Please login first to save items to your wishlist");
                 return;
             }
 
-            const res = await fetch("/api/wishlist", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
-                },
-                body: JSON.stringify({
-                    productId: product._id,
-                }),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message);
+            if (user?.token) {
+                try {
+                    await fetch("/api/wishlist", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${user.token}`,
+                        },
+                        body: JSON.stringify({
+                            productId: product._id,
+                        }),
+                    });
+                } catch (e) {
+                    console.error("Server wishlist sync error:", e);
+                }
             }
 
+            const userKey = `shopease_wishlist_${user.email.toLowerCase()}`;
+            const curr = JSON.parse(localStorage.getItem(userKey) || "[]");
+            if (!curr.some((p: any) => p._id === product._id)) {
+                localStorage.setItem(userKey, JSON.stringify([...curr, product]));
+            }
             dispatch(addToWishlist(product));
-
         } catch (error) {
             console.error("Wishlist error:", error);
         }

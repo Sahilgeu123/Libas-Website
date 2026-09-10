@@ -122,6 +122,31 @@ const Checkout = () => {
               });
 
               if (saveOrderRes.ok) {
+                try {
+                  const newOrderRecord = {
+                    _id: "ORD-" + Date.now().toString().slice(-6),
+                    items: cartItems.map((item) => ({
+                      productId: item._id,
+                      title: item.title,
+                      name: item.title,
+                      price: item.price,
+                      image: item.image,
+                      quantity: item.quantity ?? 1,
+                    })),
+                    totalAmount: total,
+                    address,
+                    paymentMethod: "Razorpay",
+                    status: "processing",
+                    createdAt: new Date().toISOString(),
+                  };
+                  if (user?.email) {
+                    const userKey = `shopease_orders_${user.email.toLowerCase()}`;
+                    const userExisting = JSON.parse(localStorage.getItem(userKey) || "[]");
+                    localStorage.setItem(userKey, JSON.stringify([newOrderRecord, ...userExisting]));
+                  }
+                  const existing = JSON.parse(localStorage.getItem("shopease_orders") || "[]");
+                  localStorage.setItem("shopease_orders", JSON.stringify([newOrderRecord, ...existing]));
+                } catch {}
                 dispatch(clearCart());
                 navigate("/ordersuccess");
               } else {
@@ -183,6 +208,31 @@ const Checkout = () => {
         }),
       });
       if (saveOrderRes.ok) {
+        try {
+          const newOrderRecord = {
+            _id: "ORD-" + Date.now().toString().slice(-6),
+            items: cartItems.map((item) => ({
+              productId: item._id,
+              title: item.title,
+              name: item.title,
+              price: item.price,
+              image: item.image,
+              quantity: item.quantity ?? 1,
+            })),
+            totalAmount: total,
+            address,
+            paymentMethod: "Razorpay (Bypass)",
+            status: "processing",
+            createdAt: new Date().toISOString(),
+          };
+          if (user?.email) {
+            const userKey = `shopease_orders_${user.email.toLowerCase()}`;
+            const userExisting = JSON.parse(localStorage.getItem(userKey) || "[]");
+            localStorage.setItem(userKey, JSON.stringify([newOrderRecord, ...userExisting]));
+          }
+          const existing = JSON.parse(localStorage.getItem("shopease_orders") || "[]");
+          localStorage.setItem("shopease_orders", JSON.stringify([newOrderRecord, ...existing]));
+        } catch {}
         dispatch(clearCart());
         navigate("/ordersuccess");
       } else {

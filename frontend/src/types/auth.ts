@@ -6,6 +6,7 @@ export type UserData = {
   email: string;
   role: string;
   token: string;
+  avatar?: string;
 };
 
 export type AuthContextType = {

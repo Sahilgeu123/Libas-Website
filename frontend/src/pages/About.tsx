@@ -28,19 +28,35 @@ const About = () => {
           duration: 0.8,
         }, '-=0.6');
 
-      // ScrollTrigger for Tech stack cards
-      gsap.from('.tech-card', {
-        scrollTrigger: {
-          trigger: '.tech-section',
-          start: 'top 80%',
-          toggleActions: 'play none none none',
-        },
-        opacity: 0,
-        y: 40,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power2.out',
-      });
+      // Keep the stacks visible by default. The animation only runs after the
+      // section enters the viewport, so a delayed/failed trigger cannot leave
+      // the cards permanently transparent.
+      const revealStack = (column: string, cards: string, direction: number) => {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.tech-section',
+            start: 'top 78%',
+            once: true,
+          },
+        });
+
+        timeline
+          .from(column, {
+            x: direction * 28,
+            duration: 0.55,
+            ease: 'power3.out',
+          })
+          .from(cards, {
+            y: 26,
+            scale: 0.98,
+            duration: 0.55,
+            stagger: 0.07,
+            ease: 'power3.out',
+          }, '-=0.28');
+      };
+
+      revealStack('.frontend-stack', '.frontend-tech-card', -1);
+      revealStack('.backend-stack', '.backend-tech-card', 1);
 
       // ScrollTrigger for Architecture section
       gsap.from('.arch-item', {
@@ -111,53 +127,85 @@ const About = () => {
       <div className="tech-section bg-[#f5f5e9] py-24 border-y border-[#e6e6cf]">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-black">Modern Technologies & Libraries</h2>
-            <p className="text-lg text-zinc-600 mt-2 font-medium">Selected for speed, elegance, and robust performance.</p>
+            <h2 className="text-3xl font-bold text-black font-['Frank_Ruhl_Libre']">Modern Technologies & Architecture Stack</h2>
+            <p className="text-lg text-zinc-600 mt-2 font-medium">Selected for speed, elegance, security, and robust performance.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Frontend Libraries */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold border-l-4 border-[#392907] pl-3 text-[#392907]">FRONTEND STACK</h3>
+            <div className="frontend-stack space-y-6">
+              <h3 className="text-xl font-bold border-l-4 border-[#392907] pl-3 text-[#392907] tracking-wider font-['Frank_Ruhl_Libre']">FRONTEND STACK</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">React 19</h4>
-                  <p className="text-sm text-zinc-600 mt-1">Single-page UI architecture with component reusability and fast rendering.</p>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">React 19 & React DOM</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Single-page UI architecture with component reusability, hooks, and high-speed rendering.</p>
                 </div>
-                <div className="tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">GSAP 3</h4>
-                  <p className="text-sm text-zinc-600 mt-1">High-performance scrolling effects, staggered loads, and custom micro-animations.</p>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">TypeScript (v5.9)</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Static type verification and custom interface models (UserData, Product, CartItem) ensuring defect-free code.</p>
                 </div>
-                <div className="tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">Redux Toolkit</h4>
-                  <p className="text-sm text-zinc-600 mt-1">Predictable state container managing cart data, product states, and caching client-side.</p>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Vite (v7.1) & Fast HMR</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Next-generation frontend tooling with near-instant local server start and optimized production builds.</p>
                 </div>
-                <div className="tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">Tailwind CSS v4</h4>
-                  <p className="text-sm text-zinc-600 mt-1">Modern, lightning-fast utility styling for highly responsive layouts.</p>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Redux Toolkit & React-Redux</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Predictable global state container managing cart data, item wishlists, and synchronized actions.</p>
+                </div>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">React Router DOM (v7.18)</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Declarative client-side routing, protected routes, and seamless navigation between catalog and checkout.</p>
+                </div>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Tailwind CSS (v4.3)</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Modern utility-first CSS framework integrated via @tailwindcss/vite for responsive luxury styling.</p>
+                </div>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">GSAP 3.15 & ScrollTrigger</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Cinematic viewport scrolling effects, staggered entrances, floating cards, and custom micro-animations.</p>
+                </div>
+                <div className="frontend-tech-card bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Context API & Storage</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Multi-account switcher state, avatar image persistence, and per-profile session isolation.</p>
                 </div>
               </div>
             </div>
 
             {/* Backend Libraries */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-bold border-l-4 border-[#5c430e] pl-3 text-[#392907]">BACKEND STACK</h3>
+            <div className="backend-stack space-y-6">
+              <h3 className="text-xl font-bold border-l-4 border-[#5c430e] pl-3 text-[#392907] tracking-wider font-['Frank_Ruhl_Libre']">BACKEND STACK</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">Node.js & Express</h4>
-                  <p className="text-sm text-zinc-600 mt-1">Robust REST API server handling user accounts, cart logs, and item queries.</p>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Node.js & Express 5</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Asynchronous REST API server orchestrating endpoints for authentication, products, and order staging.</p>
                 </div>
-                <div className="tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">Gemini AI API</h4>
-                  <p className="text-sm text-zinc-600 mt-1">Real-time smart assistant using `@google/genai` to parse catalog parameters.</p>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Mongoose (v9.7) & MongoDB</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Robust ODM and NoSQL database modeling User profiles, Product specifications, and Order lifecycles.</p>
                 </div>
-                <div className="tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">Mongoose & MongoDB</h4>
-                  <p className="text-sm text-zinc-600 mt-1">NoSQL database for order storage, product attributes, and authentication profiles.</p>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Google Gemini AI API</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Real-time smart conversational shopping assistant with @google/genai for catalog discovery.</p>
                 </div>
-                <div className="tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
-                  <h4 className="font-bold text-black text-lg">Razorpay Integration</h4>
-                  <p className="text-sm text-zinc-600 mt-1">Secure payment processing with client order triggers and server-side signature validation.</p>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Razorpay SDK (v2.9)</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Secure payment gateway integration with server-side order generation and client checkout handlers.</p>
+                </div>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">JWT & bcryptjs</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Salted password hashing and stateless token-based authorization middleware protecting sensitive routes.</p>
+                </div>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Nodemailer (v9.0)</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Automated transactional email notifications for user registration verification OTPs and order status slips.</p>
+                </div>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">CORS & Dotenv</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Granular Cross-Origin Resource Sharing control and secure environment configuration.</p>
+                </div>
+                <div className="backend-tech-card bg-white p-5 rounded-xl border border-[#e6e6cf] shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                  <h4 className="font-bold text-black text-lg">Multer & Cloudinary</h4>
+                  <p className="text-sm text-zinc-600 mt-1">Media asset upload handling, image compression, and cloud-hosted product image storage.</p>
                 </div>
               </div>
             </div>
@@ -168,7 +216,7 @@ const About = () => {
       {/* System Architecture */}
       <div className="arch-section py-24 mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-black">System Architecture</h2>
+          <h2 className="text-3xl font-bold text-black font-['Frank_Ruhl_Libre']">System Architecture</h2>
           <p className="text-lg text-zinc-600 mt-2 font-medium">How Frontend and Backend communicate seamlessly.</p>
         </div>
 
@@ -223,36 +271,90 @@ const About = () => {
       <div className="folder-section bg-[#f5f5e9] py-24 border-y border-[#e6e6cf]">
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-black">Project Folder Structure</h2>
+            <h2 className="text-3xl font-bold text-black font-['Frank_Ruhl_Libre']">Project Folder Structure</h2>
             <p className="text-lg text-zinc-600 mt-2 font-medium">Clear separation of client layouts and server operations.</p>
           </div>
 
-          <div className="folder-tree bg-[#241a0d] text-emerald-400 p-6 rounded-2xl font-mono text-sm shadow-xl overflow-x-auto border-2 border-[#392907] max-h-[500px]">
+          <div className="folder-tree bg-[#241a0d] text-emerald-400 p-6 rounded-2xl font-mono text-sm shadow-xl overflow-x-auto border-2 border-[#392907] max-h-[540px]">
             <pre className="leading-relaxed">
-              {`Libas/
-├── Backend/                    # Express REST API Server
-│   ├── config/                 # DB config (connectDB.js)
-│   ├── controllers/            # Logic (auth, orders, products)
-│   ├── middleware/             # Route guards (JWT verification)
-│   ├── models/                 # Database schemas (User, Product, Order)
-│   ├── routes/                 # Routing endpoints
-│   ├── utils/                  # Utility scripts (nodemailer helper)
-│   ├── seed.js                 # Seed database with mock inventory
-│   └── index.js                # App entrypoint
-├── frontend/                   # React Vite SPA Frontend
-│   ├── public/                 # Static visual assets (models, logos)
+              {`E-commerce-website/
+├── Backend/                            # Express REST API Server & MongoDB
+│   ├── config/                         # Database connection (db.js)
+│   ├── controllers/                    # Request logic & business handlers
+│   │   ├── aiChatController.js         # Gemini AI shopping assistant
+│   │   ├── analyticsController.js      # Sales, users, & product analytics
+│   │   ├── authController.js           # Registration, login, & user profiles
+│   │   ├── orderController.js          # Order placement, status, & getMyOrders
+│   │   ├── paymentController.js        # Razorpay order generation & verification
+│   │   ├── productController.js        # Product catalog CRUD operations
+│   │   └── wishlistController.js       # Customer wishlist operations
+│   ├── middleware/                     # Express route security middlewares
+│   │   ├── admin.Miiddleware.js        # Administrator access control guard
+│   │   └── auth.Middleware.js          # JWT token verification & authorization
+│   ├── models/                         # Mongoose database schemas
+│   │   ├── orderModel.js               # Orders, line items, & shipping addresses
+│   │   ├── productModel.js             # Catalog items, specs, & inventory
+│   │   └── userModel.js                # Customer profiles, wishlist, & roles
+│   ├── routes/                         # Express API endpoints
+│   │   ├── aiRoutes.js                 # /api/ai endpoints
+│   │   ├── analyticsRoutes.js          # /api/analytics endpoints
+│   │   ├── authRoutes.js               # /api/auth endpoints
+│   │   ├── orderRoutes.js              # /api/orders & /api/orders/myorders
+│   │   ├── paymentRoutes.js            # /api/payment endpoints
+│   │   ├── productRoutes.js            # /api/products endpoints
+│   │   └── wishlistRoutes.js           # /api/wishlist endpoints
+│   ├── utils/                          # Server helper utilities
+│   │   └── sendEmail.js                # Nodemailer email notification helper
+│   ├── index.js                        # Server entrypoint & middleware configuration
+│   ├── seed.js                         # Database initial catalog population script
+│   └── package.json                    # Backend dependencies & dev scripts
+├── frontend/                           # React 19 + TypeScript + Vite Client SPA
+│   ├── public/                         # Static visual assets & logos
 │   ├── src/
-│   │   ├── assets/             # Media icons
-│   │   ├── components/         # Global widgets (Navbar, Footer, AIChat)
-│   │   ├── context/            # Context API providers (AuthContext)
-│   │   ├── pages/              # Primary routes (Home, Products, About)
-│   │   ├── redux/              # RTK slices & store configurations
-│   │   ├── styles/             # Modular CSS layouts
-│   │   ├── types/              # TS interface structures
-│   │   ├── App.tsx             # Route paths mapping
-│   │   └── main.tsx            # DOM node mounting
-│   ├── tailwind.config.ts      # Styles parameters
-│   └── vite.config.ts          # Compilation settings`}
+│   │   ├── assets/                     # Media icons & brand assets
+│   │   ├── components/                 # Global UI widgets
+│   │   │   ├── AiChat.tsx              # AI shopping assistant modal
+│   │   │   ├── Footer.tsx              # Application footer & navigation links
+│   │   │   ├── Navbar.tsx              # Responsive navbar with GSAP scroll animation
+│   │   │   └── ProductCart.tsx         # Product card with wishlist & cart actions
+│   │   ├── context/                    # Context API providers
+│   │   │   ├── AuthContext.ts          # Auth state interface & context definition
+│   │   │   └── AuthProvider.tsx        # Session state provider & localStorage sync
+│   │   ├── pages/                      # Application route views
+│   │   │   ├── Profile/                # Profile management & account switcher
+│   │   │   │   ├── Admin.tsx           # Admin dashboard view
+│   │   │   │   └── Profile.tsx         # User profile, avatar upload, switch modal
+│   │   │   ├── About.tsx               # Project overview, tech stack & architecture
+│   │   │   ├── Cart.tsx                # Shopping bag & quantity controls
+│   │   │   ├── Checkout.tsx            # Multi-step checkout & payment flow
+│   │   │   ├── Disclaimer.tsx          # Store terms & legal disclaimers
+│   │   │   ├── Help.tsx                # Customer support & FAQ center
+│   │   │   ├── Home.tsx                # Hero section & featured collections
+│   │   │   ├── Login.tsx               # User authentication sign-in
+│   │   │   ├── Order.tsx               # 2-part vertical split orders inspection page
+│   │   │   ├── OrderSucess.tsx         # Order confirmation & success screen
+│   │   │   ├── ProductDetail.tsx       # Single product details & gallery
+│   │   │   ├── Products.tsx            # Full catalog & category filters
+│   │   │   ├── Register.tsx            # Account registration & sign-up
+│   │   │   └── ReturnPolicy.tsx        # Return, exchange, & refund guidelines
+│   │   ├── redux/                      # Redux Toolkit state management
+│   │   │   ├── cartSlice.ts            # Cart items & total cost state
+│   │   │   ├── store.ts                # Configured Redux store
+│   │   │   └── wishlistSlice.ts        # Wishlist items & actions
+│   │   ├── styles/                     # Modular stylesheet configurations
+│   │   │   ├── navbar.css              # Custom navbar styling
+│   │   │   └── product.css             # Product card & grid layouts
+│   │   ├── types/                      # TypeScript type definitions
+│   │   │   ├── auth.ts                 # UserData & AuthContext interfaces
+│   │   │   ├── cart.ts                 # CartItem interface
+│   │   │   └── product.ts              # Product catalog interface
+│   │   ├── App.tsx                     # Route paths mapping & page routing
+│   │   ├── index.css                   # Tailwind CSS v4 entrypoint & fonts
+│   │   └── main.tsx                    # React DOM root mounting
+│   ├── package.json                    # Frontend dependencies & build commands
+│   ├── tsconfig.json                   # TypeScript compiler configuration
+│   └── vite.config.ts                  # Vite configuration with proxy & plugins
+└── package.json                        # Root workspace orchestration scripts`}
             </pre>
           </div>
         </div>

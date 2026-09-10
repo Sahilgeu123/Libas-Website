@@ -39,7 +39,7 @@ async function registerUser(req, res) {
         excited to have you on board. 
         Your OTP for email verification is: ${otp}`;
 
-      await sendMail(user.email, subject, msg);
+      sendMail(user.email, subject, msg);
 
       res.status(201).json({
         _id: user._id,
