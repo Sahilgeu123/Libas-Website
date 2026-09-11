@@ -174,10 +174,10 @@ const Home = () => {
                   Learn more <span aria-hidden="true">→</span>
                 </Link>
               </div>
-              <div className="mt-10 pb-20 flex items-center text-sm md:text-[16px]">
+              <div className="mt-10 pb-20 flex items-center text-[11px] sm:text-sm md:text-[16px]">
                 <div className="hero-feature flex gap-3 items-center border-r-2 border-zinc-500 pr-3 mr-3">
                   <img className="w-10 h-10 rounded-full border" src="/shipping.png" alt="" />
-                  <div>
+                  <div className="">
                     <p className="font-semibold">Free Delivery</p>
                     <p className="text-zinc-600">On orders over $50</p>
                   </div>

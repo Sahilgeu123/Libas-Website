@@ -2,6 +2,7 @@ import { useState, useLayoutEffect, useRef } from "react";
 import type { AiChatProps } from "../types/ai";
 import gsap from "gsap";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 type ChatMessage = {
     role: "user" | "ai";
@@ -16,7 +17,7 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
 
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const backButtonRef = useRef<HTMLButtonElement>(null);
-    
+
     const inputContainerRef = useRef<HTMLDivElement>(null);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
 
@@ -28,21 +29,21 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
                 { x: "100%", opacity: 0 },
                 { x: "0%", opacity: 1, duration: 0.8 }
             )
-            .from(backButtonRef.current, {
-                opacity: 0,
-                x: 30,
-                duration: 0.5,
-            }, "-=0.4")
-            .from(inputContainerRef.current, {
-                opacity: 0,
-                y: -20,
-                duration: 0.5,
-            }, "-=0.3")
-            .from(messagesContainerRef.current, {
-                opacity: 0,
-                y: 20,
-                duration: 0.6,
-            }, "-=0.3");
+                .from(backButtonRef.current, {
+                    opacity: 0,
+                    x: 30,
+                    duration: 0.5,
+                }, "-=0.4")
+                .from(inputContainerRef.current, {
+                    opacity: 0,
+                    y: -20,
+                    duration: 0.5,
+                }, "-=0.3")
+                .from(messagesContainerRef.current, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.6,
+                }, "-=0.3");
         });
         return () => ctx.revert();
     }, []);
@@ -75,7 +76,7 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
         ]);
 
         try {
-            const res = await fetch("/api/ai/chat", {
+            const res = await fetch(`${API_URL}/api/ai/chat`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
