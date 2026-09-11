@@ -5,6 +5,6 @@ const { protected } = require("../middleware/auth.Middleware");
 
 const { chatAI } = require("../controllers/aiChatController");
 
-router.post("/chat", protected ,chatAI);
+router.post("/chat" ,chatAI);
 
 module.exports = router;

@@ -7,6 +7,7 @@ import { useLayoutEffect } from "react";
 import { Link } from 'react-router-dom'
 import { AuthContext } from "../context/AuthContext";
 import { type RootState } from "../redux/store";
+
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -30,7 +31,7 @@ const Navbar = () => {
     return () => { animateNav.kill(); };
 
   }, []);
-  
+
   return (
     <nav className="bg-[#3d2705] text-white shadow-lg navbar 
      w-screen transition-all duration-300 z-200">
@@ -48,7 +49,7 @@ const Navbar = () => {
         <div className={`hidden items-center gap-15 ${user ? "-mr-12" : "mr-17"}
         text-sm font-medium text-[#efefd5]
         tracking-widest 
-        sm:flex hover:text-[#efefd5] `}>
+        lg:flex hover:text-[#efefd5] `}>
           <a href="/" className="transition hover:text-white">Home</a>
           <a href="/about" className="transition hover:text-white">About</a>
           <a href="/products" className="transition hover:text-white">Collection</a>
@@ -56,8 +57,8 @@ const Navbar = () => {
 
         {
           user ? (
-            <div className="flex items-center gap-10">
-              <Link to="/profile" className="text-sm font-medium text-[#efefd5] transition hover:text-white">Profile</Link>
+            <div className="flex items-center gap-5 md:gap-10">
+              <Link to="/profile" className="text-md font-medium text-[#efefd5] transition hover:text-white">Profile</Link>
               <a
                 href="/cart"
                 className="rounded-3xl bg-white px-5 py-2 text-sm tracking-wider font-semibold text-black transition hover:bg-zinc-300"
@@ -70,7 +71,9 @@ const Navbar = () => {
           )
 
         }
+
       </div>
+ 
     </nav>
   )
 }

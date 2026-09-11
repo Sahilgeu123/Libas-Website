@@ -12,13 +12,21 @@ gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openMenu, setOpenMenu] = useState(false);
   const [onChat, setOnChat] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
   const heroImages = ['/model.png', '/hero_model_2.jpg', '/hero_model_3.jpg'];
   const isInitialMount = useRef(true);
+  const menuRef = useRef<HTMLUListElement | null>(null);
 
+  const menuItems = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Collection', href: '/products' },
+    { name: 'Help', href: '/help' }
+  ];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -70,6 +78,25 @@ const Home = () => {
     });
   }, [currentImageIndex]);
 
+
+  useLayoutEffect(() => {
+    if (openMenu && menuRef.current) {
+      const items = menuRef.current.children;
+
+      gsap.set(items, {
+        opacity: 0,
+        y: 40,
+      });
+
+      gsap.to(items, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "power2.inOut",
+      });
+    }
+  }, [openMenu]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -129,9 +156,15 @@ const Home = () => {
     return () => ctx.revert();
   }, [loading, products]);
 
+
+  const menufun = () => {
+    setOpenMenu(!openMenu);
+  };
   return (
     <div>
       <div ref={containerRef} className="relative min-h-screen bg-[#fdfdf4]">
+
+        {/* Chat Section */}
         <div className="">
           {onChat ? (
             <AiChat onChat={onChat} setOnChat={setOnChat} />
@@ -146,6 +179,32 @@ const Home = () => {
             </button>
           )}
         </div>
+
+        {/* Menu Section */}
+        <div className="fixed top-20 right-6 lg:hidden z-40">
+
+          <button onClick={menufun} className="bg-[#3d2705] text-white px-9.75 py-1 rounded-md shadow-lg  cursor-pointer hover:bg-[#4c370a] transition-all duration-300">
+            Menu
+          </button>
+
+          <div>
+            {openMenu && (
+              <div className="absolute right-0 mt-2  text-white z-50">
+                <ul ref={menuRef} className="py-2 ">
+                  {menuItems.map((item) => (
+                    <li key={item.name} className="flex justify-center px-6 py-1  bg-[#3d2705] mb-1 hover:bg-[#4c370a] rounded-md shadow-lg ">
+                      <Link className="text-white no-underline" to={item.href}>
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+
         <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-20">
           <div className="flex flex-col md:flex-row mb-10 h-screen sm:items-start lg:items-stretch -mt-5 lg:mb-20">
             <div className="leftSide md:mx-5 lg:max-w-1/2 flex flex-col gap-6  pt-10 md:pb-0 border-b-2 tracking-wide">
@@ -174,7 +233,7 @@ const Home = () => {
                   Learn more <span aria-hidden="true">→</span>
                 </Link>
               </div>
-              <div className="mt-10 pb-20 flex items-center text-[11px] sm:text-sm md:text-[16px]">
+              <div className="mt-10 pb-20 flex items-center text-[10px] sm:text-sm md:text-[16px]">
                 <div className="hero-feature flex gap-3 items-center border-r-2 border-zinc-500 pr-3 mr-3">
                   <img className="w-10 h-10 rounded-full border" src="/shipping.png" alt="" />
                   <div className="">

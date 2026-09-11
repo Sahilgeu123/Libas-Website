@@ -54,7 +54,6 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
 
         const currentMessage = message;
 
-        // Add user's message immediately
         setMessages((prev) => [
             ...prev,
             {
@@ -66,7 +65,6 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
         setMessage("");
         setLoading(true);
 
-        // Add empty AI message
         setMessages((prev) => [
             ...prev,
             {
@@ -158,7 +156,7 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
             <div ref={inputContainerRef} className="flex z-50 absolute top-20 left-4">
 
                 <input
-                    className="w-85 sm:w-120 lg:w-150 h-11 shadow-5xl bg-[#fbf8f2] rounded-full border border-yellow-950 text-lg pl-5"
+                    className="w-65 sm:w-120 lg:w-150 h-11 shadow-5xl bg-[#fbf8f2] rounded-full border border-yellow-950 text-lg pl-5"
                     type="text"
                     placeholder={
                         loading
