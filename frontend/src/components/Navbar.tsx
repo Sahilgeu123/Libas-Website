@@ -61,7 +61,7 @@ const Navbar = () => {
               <Link to="/profile" className="text-md font-medium text-[#efefd5] transition hover:text-white">Profile</Link>
               <a
                 href="/cart"
-                className="rounded-3xl bg-white px-5 py-2 text-sm tracking-wider font-semibold text-black transition hover:bg-zinc-300"
+                className="rounded-3xl bg-[#fbfbef] px-5 py-2 text-sm tracking-wider font-semibold text-black transition hover:scale-105"
               >
                 Cart({cartItems.length})
               </a>

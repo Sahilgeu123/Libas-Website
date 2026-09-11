@@ -183,7 +183,7 @@ const Home = () => {
         {/* Menu Section */}
         <div className="fixed top-20 right-6 lg:hidden z-40">
 
-          <button onClick={menufun} className="bg-[#3d2705] text-white px-9.75 py-1 rounded-md shadow-lg  cursor-pointer hover:bg-[#4c370a] transition-all duration-300">
+          <button onClick={menufun} className=" border-b border-[#3d2705]/30 text-[#3d2705] px-9.75 py-1 rounded-md shadow cursor-pointer hover:scale-105 transition-all duration-300">
             Menu
           </button>
 
@@ -192,8 +192,8 @@ const Home = () => {
               <div className="absolute right-0 mt-2  text-white z-50">
                 <ul ref={menuRef} className="py-2 ">
                   {menuItems.map((item) => (
-                    <li key={item.name} className="flex justify-center px-6 py-1  bg-[#3d2705] mb-1 hover:bg-[#4c370a] rounded-md shadow-lg ">
-                      <Link className="text-white no-underline" to={item.href}>
+                    <li key={item.name} className="flex justify-center px-6 py-1 mb-2 border-b border-[#3d2705]/30 text-[#3d2705] rounded-md shadow-lg ">
+                      <Link className="no-underline hover:scale-105 transition-all duration-300" to={item.href}>
                         {item.name}
                       </Link>
                     </li>
