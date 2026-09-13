@@ -20,7 +20,7 @@ const ProductCart = ({ product }: { product: Product }) => {
 
             if (user?.token) {
                 try {
-                    await fetch("/api/wishlist", {
+                    await fetch(`${import.meta.env.VITE_API_URL}/api/wishlist`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const ProductCart = ({ product }: { product: Product }) => {
                 }
             }
 
-            const userKey = `shopease_wishlist_${user.email.toLowerCase()}`;
+            const userKey = `libas_wishlist_${user.email.toLowerCase()}`;
             const curr = JSON.parse(localStorage.getItem(userKey) || "[]");
             if (!curr.some((p: any) => p._id === product._id)) {
                 localStorage.setItem(userKey, JSON.stringify([...curr, product]));

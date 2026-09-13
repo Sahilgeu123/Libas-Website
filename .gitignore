@@ -4,3 +4,4 @@ frontend/.env
 frontend/node_modules/
 node_modules/
 npm-debug.log*
+todo-list.txt

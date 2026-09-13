@@ -90,7 +90,7 @@ const Checkout = () => {
         key: "rzp_test_dummykey123", // Student dummy fallback
         amount: orderData.order.amount,
         currency: orderData.order.currency,
-        name: "ShopEase",
+        name: "libas E-commerce",
         description: "Test Transaction",
         order_id: orderData.order.id,
         handler: async function (response: any) {
@@ -140,13 +140,15 @@ const Checkout = () => {
                     createdAt: new Date().toISOString(),
                   };
                   if (user?.email) {
-                    const userKey = `shopease_orders_${user.email.toLowerCase()}`;
+                    const userKey = `libas_orders_${user.email.toLowerCase()}`;
                     const userExisting = JSON.parse(localStorage.getItem(userKey) || "[]");
                     localStorage.setItem(userKey, JSON.stringify([newOrderRecord, ...userExisting]));
                   }
-                  const existing = JSON.parse(localStorage.getItem("shopease_orders") || "[]");
-                  localStorage.setItem("shopease_orders", JSON.stringify([newOrderRecord, ...existing]));
-                } catch {}
+                  const existing = JSON.parse(localStorage.getItem("libas_orders") || "[]");
+                  localStorage.setItem("libas_orders", JSON.stringify([newOrderRecord, ...existing]));
+                } catch(error) {
+                  console.error("Error saving order to local storage:", error);
+                }
                 dispatch(clearCart());
                 navigate("/ordersuccess");
               } else {
@@ -226,13 +228,15 @@ const Checkout = () => {
             createdAt: new Date().toISOString(),
           };
           if (user?.email) {
-            const userKey = `shopease_orders_${user.email.toLowerCase()}`;
+            const userKey = `libas_orders_${user.email.toLowerCase()}`;
             const userExisting = JSON.parse(localStorage.getItem(userKey) || "[]");
             localStorage.setItem(userKey, JSON.stringify([newOrderRecord, ...userExisting]));
           }
-          const existing = JSON.parse(localStorage.getItem("shopease_orders") || "[]");
-          localStorage.setItem("shopease_orders", JSON.stringify([newOrderRecord, ...existing]));
-        } catch {}
+          const existing = JSON.parse(localStorage.getItem("libas_orders") || "[]");
+          localStorage.setItem("libas_orders", JSON.stringify([newOrderRecord, ...existing]));
+        } catch (error) {
+          console.error("Error saving order to local storage:", error);
+        }
         dispatch(clearCart());
         navigate("/ordersuccess");
       } else {

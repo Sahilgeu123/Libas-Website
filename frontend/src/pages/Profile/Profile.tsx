@@ -7,7 +7,9 @@ import { removeFromWishlist, setWishlist, clearWishlist } from '../../redux/wish
 import type { Product } from '../../types/product';
 import type { UserData } from '../../types/auth';
 
-const ACCOUNTS_STORAGE_KEY = 'shopease_saved_accounts';
+const ACCOUNTS_STORAGE_KEY = 'libas_saved_accounts';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getInitialSavedAccounts = (currentUser: UserData | null): UserData[] => {
   try {
@@ -47,6 +49,7 @@ const Profile = () => {
 
   // Avatar Upload state
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [avatarUrl, setAvatarUrl] = useState<string>(() => {
     if (user?.avatar) return user.avatar;
     if (user?.email) {
@@ -64,10 +67,10 @@ const Profile = () => {
         const exists = prev.some((a) => a.email.toLowerCase() === user.email.toLowerCase());
         const updated = exists
           ? prev.map((a) =>
-              a.email.toLowerCase() === user.email.toLowerCase()
-                ? { ...a, ...user, avatar: stored || a.avatar }
-                : a
-            )
+            a.email.toLowerCase() === user.email.toLowerCase()
+              ? { ...a, ...user, avatar: stored || a.avatar }
+              : a
+          )
           : [...prev, { ...user, avatar: stored }];
         localStorage.setItem(ACCOUNTS_STORAGE_KEY, JSON.stringify(updated));
         return updated;
@@ -84,23 +87,26 @@ const Profile = () => {
     }
 
     const loadUserWishlist = async () => {
-      const userKey = `shopease_wishlist_${user.email.toLowerCase()}`;
+      const userKey = `libas_wishlist_${user.email.toLowerCase()}`;
       let items: Product[] = [];
 
       // 1. Try server
       if (user.token) {
         try {
-          const res = await fetch("/api/wishlist", {
+          const res = await fetch(`${API_URL}/api/wishlist`, {
             headers: { Authorization: `Bearer ${user.token}` },
           });
           if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data.wishlist)) {
               items = data.wishlist.filter(Boolean);
+              console.log('Fetched wishlist for', user.email, userKey, ':', items, "Data before storing in localStorage:", data.wishlist);
               localStorage.setItem(userKey, JSON.stringify(items));
             }
           }
-        } catch {}
+        } catch (error) {
+          console.error('Error fetching wishlist:', error);
+        }
       }
 
       // 2. Fallback to user-scoped local storage
@@ -109,8 +115,11 @@ const Profile = () => {
           const local = localStorage.getItem(userKey);
           if (local) {
             items = JSON.parse(local);
+            console.log('Loaded wishlist for', user.email, userKey, 'from local storage:', items);
           }
-        } catch {}
+        } catch (error) {
+          console.error('Error parsing local wishlist:', error);
+        }
       }
 
       setWishlistItems(items);
@@ -131,7 +140,7 @@ const Profile = () => {
       let count = 0;
       if (user.token) {
         try {
-          const res = await fetch("/api/orders/myorders", {
+          const res = await fetch(`${API_URL}/api/orders/myorders`, {
             headers: { Authorization: `Bearer ${user.token}` },
           });
           if (res.ok) {
@@ -141,11 +150,13 @@ const Profile = () => {
               return;
             }
           }
-        } catch {}
+        } catch (error) {
+          console.error('Error fetching order count:', error);
+        }
       }
 
       try {
-        const userOrdersKey = `shopease_orders_${user.email.toLowerCase()}`;
+        const userOrdersKey = `libas_orders_${user.email.toLowerCase()}`;
         const local = localStorage.getItem(userOrdersKey);
         if (local) {
           const parsed = JSON.parse(local);
@@ -153,7 +164,9 @@ const Profile = () => {
             count = parsed.length;
           }
         }
-      } catch {}
+      } catch (error) {
+        console.error('Error fetching order count:', error);
+      }
 
       setOrderCount(count);
     };
@@ -265,12 +278,12 @@ const Profile = () => {
 
   const getAllWishlistItems = async () => {
     if (!user?.email) return;
-    const userKey = `shopease_wishlist_${user.email.toLowerCase()}`;
+    const userKey = `libas_wishlist_${user.email.toLowerCase()}`;
     let items: Product[] = [];
 
     if (user?.token) {
       try {
-        const res = await fetch("/api/wishlist", {
+        const res = await fetch(`${API_URL}/api/wishlist`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -292,7 +305,9 @@ const Profile = () => {
       try {
         const local = localStorage.getItem(userKey);
         if (local) items = JSON.parse(local);
-      } catch {}
+      } catch (error) {
+        console.error("Error parsing local wishlist:", error);
+      }
     }
 
     setWishlistItems(items);
@@ -322,14 +337,15 @@ const Profile = () => {
 
   const handleRemoveWishlist = async (id: string) => {
     if (!user?.email) return;
-    const userKey = `shopease_wishlist_${user.email.toLowerCase()}`;
+    const userKey = `libas_wishlist_${user.email.toLowerCase()}`;
 
     if (user?.token) {
       try {
-        await fetch(`/api/wishlist/${id}`, {
+        await fetch(`${API_URL}/api/wishlist/${id}`, {
           method: "DELETE",
           headers: { Authorization: `Bearer ${user.token}` },
         });
+        console.log(`running Remove wishlist item: ${id}`);
       } catch (error) {
         console.error("Error removing wishlist item:", error);
       }
@@ -578,11 +594,10 @@ const Profile = () => {
                         <div
                           key={acc.email}
                           onClick={() => !isActive && handleSwitchAccount(acc)}
-                          className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-200 ${
-                            isActive
-                              ? 'border-[#5c430e] bg-[#f8f2e1]/80 shadow-sm'
-                              : 'border-[#5c430e]/10 bg-[#fdfdf4] hover:border-[#5c430e]/40 hover:bg-[#f8f2e1]/40 cursor-pointer group'
-                          }`}
+                          className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-200 ${isActive
+                            ? 'border-[#5c430e] bg-[#f8f2e1]/80 shadow-sm'
+                            : 'border-[#5c430e]/10 bg-[#fdfdf4] hover:border-[#5c430e]/40 hover:bg-[#f8f2e1]/40 cursor-pointer group'
+                            }`}
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <div className="h-10 w-10 shrink-0 rounded-full border border-[#5c430e]/20 overflow-hidden bg-white">
