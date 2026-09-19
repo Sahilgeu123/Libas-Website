@@ -22,12 +22,18 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
     const messagesContainerRef = useRef<HTMLDivElement>(null);
 
     useLayoutEffect(() => {
+
+
         const ctx = gsap.context(() => {
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            const tl = gsap.timeline({
+                defaults: { ease: "power3.out" }
+            });
+
+
 
             tl.fromTo(chatContainerRef.current,
                 { x: "100%", opacity: 0 },
-                { x: "0%", opacity: 1, duration: 0.8 }
+                { x: "0%", opacity: 1, duration: 1 }
             )
                 .from(backButtonRef.current, {
                     opacity: 0,
@@ -48,6 +54,24 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
         return () => ctx.revert();
     }, []);
 
+
+    const closeChat = () => {
+        if (!chatContainerRef.current) {
+            setOnChat(false);
+            return;
+        }
+
+        gsap.to(chatContainerRef.current, {
+            xPercent: 100,
+            duration: 0.8,
+            opacity: 0,
+            ease: "power3.in",
+
+            onComplete: () => {
+                setOnChat(false);
+            },
+        });
+    };
 
     const sendMessage = async () => {
         if (!message.trim() || loading) return;
@@ -140,14 +164,17 @@ const AiChat = ({ setOnChat }: AiChatProps) => {
         }
     };
 
+
+
+
     return (
-        <div ref={chatContainerRef} className="fixed mt-2 md:mt-0`` md:absolute z-50 w-full lg:w-185 bg-white/30 right-0 backdrop-blur-md h-screen md:h-4/6 ">
+        <div ref={chatContainerRef} className="fixed mt-2 md:mt-0 z-50 w-full lg:w-185 bg-white/30 right-0 backdrop-blur-xl h-screen md:h-185 border-l border-black/30 ">
 
             {/* Back Button */}
             <button
                 ref={backButtonRef}
                 className="absolute w-23 h-11 shadow-2xl font-semibold border border-yellow-950 rounded-full mt-20 top-0 right-3 bg-[#fbf8f2]"
-                onClick={() => setOnChat(false)}
+                onClick={() => closeChat()}
             >
                 back
             </button>

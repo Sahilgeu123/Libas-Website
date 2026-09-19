@@ -101,7 +101,7 @@ const Navbar = () => {
           "-=0.3"
         )
         .to(
-          items,
+          items ?? [],
           {
             opacity: 1,
             x: 0,
@@ -122,22 +122,43 @@ const Navbar = () => {
     setIsMenuOpen(true);
   };
 
-  const closeMenu = () => {
-    if (!menuRef.current) {
-      setIsMenuOpen(false);
-      return;
-    }
+const closeMenu = () => {
+  if (!menuRef.current) {
+    setIsMenuOpen(false);
+    return;
+  }
 
-    gsap.to(menuRef.current, {
+  const items = menuItemsRef.current?.children;
+
+  const tl = gsap.timeline({
+    onComplete: () => {
+      setIsMenuOpen(false);
+    },
+  });
+
+  // Close menu items first
+  if (items?.length) {
+    tl.to(items, {
+      opacity: 0,
+      x: -20,
+      duration: 0.3,
+      stagger: 0.05,
+      ease: "power2.in",
+    });
+  }
+
+  // Then slide the whole menu out
+  tl.to(
+    menuRef.current,
+    {
       xPercent: -100,
+      opacity: 0,
       duration: 0.6,
       ease: "power3.in",
-
-      onComplete: () => {
-        setIsMenuOpen(false);
-      },
-    });
-  };
+    },
+    "-=0.1"
+  );
+};
 
   const OpenMenu = () => {
     if (!isMenuOpen) return null;

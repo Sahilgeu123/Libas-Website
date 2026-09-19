@@ -137,6 +137,8 @@ const Home = () => {
     <div>
       <div ref={containerRef} className="relative min-h-screen ">
 
+
+
         {/* Chat Section */}
         <div className="">
           {onChat ? (
