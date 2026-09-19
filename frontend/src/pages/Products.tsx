@@ -38,7 +38,7 @@ const Products = () => {
     : products.filter((product) => product.category === selectedCategory);
 
   return (
-    <main className="min-h-screen bg-[#fdfdf4] px-6 py-16 sm:px-10 lg:px-16 mt-10">
+    <main className="min-h-screen px-6 py-16 sm:px-10 lg:px-16 mt-10">
       <div className="mx-auto max-w-7xl">
 
 

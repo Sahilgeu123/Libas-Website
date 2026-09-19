@@ -12,21 +12,14 @@ gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [openMenu, setOpenMenu] = useState(false);
   const [onChat, setOnChat] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
   const heroImages = ['/model.png', '/hero_model_2.jpg', '/hero_model_3.jpg'];
   const isInitialMount = useRef(true);
-  const menuRef = useRef<HTMLUListElement | null>(null);
 
-  const menuItems = [
-    { name: 'About', href: '/about' },
-    { name: 'Collection', href: '/products' },
-    {name:'Order', href: '/orders'},
-    { name: 'Help', href: '/help' }
-  ];
+
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -79,24 +72,6 @@ const Home = () => {
   }, [currentImageIndex]);
 
 
-  useLayoutEffect(() => {
-    if (openMenu && menuRef.current) {
-      const items = menuRef.current.children;
-
-      gsap.set(items, {
-        opacity: 0,
-        y: 40,
-      });
-
-      gsap.to(items, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "power2.inOut",
-      });
-    }
-  }, [openMenu]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -157,12 +132,10 @@ const Home = () => {
   }, [loading, products]);
 
 
-  const menufun = () => {
-    setOpenMenu(!openMenu);
-  };
+
   return (
     <div>
-      <div ref={containerRef} className="relative min-h-screen bg-[#fdfdf4]">
+      <div ref={containerRef} className="relative min-h-screen ">
 
         {/* Chat Section */}
         <div className="">
@@ -178,30 +151,6 @@ const Home = () => {
               Ask AI
             </button>
           )}
-        </div>
-
-        {/* Menu Section */}
-        <div className="fixed top-20 right-6 lg:hidden z-40">
-
-          <button onClick={menufun} className="bg-[#fdfdf4] border-b border-[#3d2705]/30 text-[#3d2705] px-9.75 py-1 rounded-md shadow cursor-pointer hover:scale-105 transition-all duration-300">
-            Menu
-          </button>
-
-          <div>
-            {openMenu && (
-              <div className="absolute right-0 mt-2  text-white z-50">
-                <ul ref={menuRef} className="py-2 ">
-                  {menuItems.map((item) => (
-                    <li key={item.name} className="bg-[#fdfdf4] flex justify-center px-6 py-1 mb-2 border-b border-[#3d2705]/30 text-[#3d2705] rounded-md shadow-lg ">
-                      <Link className="no-underline hover:scale-105 transition-all duration-300" to={item.href}>
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
         </div>
 
 

@@ -100,7 +100,6 @@ const Profile = () => {
             const data = await res.json();
             if (Array.isArray(data.wishlist)) {
               items = data.wishlist.filter(Boolean);
-              console.log('Fetched wishlist for', user.email, userKey, ':', items, "Data before storing in localStorage:", data.wishlist);
               localStorage.setItem(userKey, JSON.stringify(items));
             }
           }
@@ -115,7 +114,6 @@ const Profile = () => {
           const local = localStorage.getItem(userKey);
           if (local) {
             items = JSON.parse(local);
-            console.log('Loaded wishlist for', user.email, userKey, 'from local storage:', items);
           }
         } catch (error) {
           console.error('Error parsing local wishlist:', error);
