@@ -248,6 +248,7 @@ const closeMenu = () => {
               Collection
             </a>
           </div>
+          
 
           {user ? (
             <div>

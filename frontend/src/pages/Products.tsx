@@ -41,9 +41,22 @@ const Products = () => {
     <main className="min-h-screen px-6 py-16 sm:px-10 lg:px-16 mt-10">
       <div className="mx-auto max-w-7xl">
 
-
+        <div className="relative flex justify-center w-full">
+          <input
+            type="text"
+            className="w-full bg-white pl-12 pr-4 border-2 border-[#5c3010]/20 rounded-full outline-none py-1.5 mb-5 placeholder:font-semibold placeholder:text-[#5c3010]/70"
+            placeholder="Search..."
+          />
+          <img
+            src="/search.png"
+            alt="search"
+            className="absolute left-1 top-[21px] -translate-y-1/2 w-12 h-12 pointer-events-none"
+          />
+        </div>
         {!loading && !error && categories.length > 2 && (
+
           <div className="mb-10 flex flex-wrap justify-center gap-2" aria-label="Product categories">
+
             {categories.map((category) => (
               <button
                 key={category}
